@@ -55,11 +55,17 @@ header{
 .wordmark .sur{ font-style:italic; color:var(--ink-soft); }
 nav.rubric-font{
   display:flex;
-  gap:26px;
+  flex-wrap:wrap;
+  gap:10px 26px;
   font-size:12.5px;
   text-transform:uppercase;
   color:var(--ink-soft);
   justify-self:end;
+}
+/* stacked under the wordmark below 820px — align left, tighten the gaps
+   so three items still clear a 320px screen without overflowing */
+@media (max-width:820px){
+  nav.rubric-font{ justify-self:start; gap:8px 18px; }
 }
 nav.rubric-font a{ color:var(--ink-soft); }
 nav.rubric-font a:hover{ color:var(--rubric); text-decoration:none; border-bottom:1px solid var(--rubric); }
@@ -86,6 +92,9 @@ nav.rubric-font a:hover{ color:var(--rubric); text-decoration:none; border-botto
 .index-num{ color:var(--rubric); margin-right:6px; }
 
 main{ padding:0 28px 0 0; }
+/* the index rail supplies the left inset on desktop; once it is hidden,
+   main needs its own so body text does not run to the screen edge */
+@media (max-width:820px){ main{ padding:0 28px; } }
 
 /* ---------- Hero ---------- */
 .hero{
@@ -101,7 +110,7 @@ main{ padding:0 28px 0 0; }
 .eyebrow::before{ content:"— "; }
 h1{
   font-weight:500;
-  font-size:44px;
+  font-size:clamp(30px, 7vw, 44px);
   line-height:1.15;
   margin:0 0 26px;
   max-width:11.5em;
