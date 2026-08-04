@@ -8,7 +8,7 @@ type Plate = {
   title: string;
   src: string | null;
   alt: string;
-  variant?: "square" | "wide";
+  variant?: "square" | "wide" | "feature";
 };
 
 const photoPlates: Plate[] = [
@@ -16,6 +16,27 @@ const photoPlates: Plate[] = [
   { num: "02", title: "Field, late August", src: null, alt: "" },
   { num: "03", title: "Stair, Whitby", src: null, alt: "" },
   { num: "04", title: "Gate, near Richmond", src: null, alt: "" },
+  {
+    num: "05",
+    title: "Peugeot Coffee Fest",
+    src: "/images/edition-01.jpg",
+    alt: "Still life of a vintage Peugeot coffee grinder, moka pot and scattered coffee beans",
+    variant: "feature",
+  },
+  {
+    num: "06",
+    title: "Chili Passion",
+    src: "/images/edition-02.jpg",
+    alt: "Still life of three red chillies on dark slate",
+    variant: "feature",
+  },
+  {
+    num: "07",
+    title: "Garlic, Cumberland Slate",
+    src: "/images/edition-03.jpg",
+    alt: "Still life of a garlic bulb on Cumberland slate",
+    variant: "feature",
+  },
 ];
 
 const histamaticPlates: Plate[] = [
@@ -84,27 +105,6 @@ const histamaticPlates: Plate[] = [
   },
 ];
 
-const editionPlates: Plate[] = [
-  {
-    num: "01",
-    title: "Peugeot Coffee Fest",
-    src: "/images/edition-01.jpg",
-    alt: "Still life of a vintage Peugeot coffee grinder, moka pot and scattered coffee beans",
-  },
-  {
-    num: "02",
-    title: "Chili Passion",
-    src: "/images/edition-02.jpg",
-    alt: "Still life of three red chillies on dark slate",
-  },
-  {
-    num: "03",
-    title: "Garlic, Cumberland Slate",
-    src: "/images/edition-03.jpg",
-    alt: "Still life of a garlic bulb on Cumberland slate",
-  },
-];
-
 type DesignPlate = {
   src: string | null;
   alt: string;
@@ -145,7 +145,7 @@ const designPlates: DesignPlate[] = [
 ];
 
 type LightboxState = {
-  group: "photo" | "histamatic" | "edition" | "design";
+  group: "photo" | "histamatic" | "design";
   index: number;
 } | null;
 
@@ -155,7 +155,6 @@ export default function Home() {
   const groups = {
     photo: photoPlates,
     histamatic: histamaticPlates,
-    edition: editionPlates,
     design: designPlates,
   };
 
@@ -310,42 +309,6 @@ export default function Home() {
                 >
                   {p.src && (
                     <Image src={p.src} alt={p.alt} width={1200} height={1200} />
-                  )}
-                </div>
-                <div className="plate-cap">
-                  <span className="plate-num rubric-font">{p.num}</span>
-                  <span className="plate-title">{p.title}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="section-head insta-head">
-            <h2 className="section-title insta-title">Edition prints</h2>
-            <span className="section-note rubric-font">
-              studio work, printed and sold
-            </span>
-          </div>
-          <p className="section-intro insta-intro">
-            The other end of the spectrum from the histamatics above — lit,
-            composed, and considered, rather than grabbed in passing.
-          </p>
-          <div className="plates">
-            {editionPlates.map((p, i) => (
-              <div
-                className={`plate-wrap${p.variant ? " " + p.variant : ""}`}
-                key={p.num}
-              >
-                <div
-                  className={`plate${p.src ? " filled clickable" : ""}`}
-                  onClick={
-                    p.src
-                      ? () => setLightbox({ group: "edition", index: i })
-                      : undefined
-                  }
-                >
-                  {p.src && (
-                    <Image src={p.src} alt={p.alt} width={1600} height={2400} />
                   )}
                 </div>
                 <div className="plate-cap">
