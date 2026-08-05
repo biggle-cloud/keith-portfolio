@@ -266,7 +266,18 @@ export default function Home() {
                   }
                 >
                   {p.src && (
-                    <Image src={p.src} alt={p.alt} width={2500} height={1768} />
+                    <Image
+                      src={p.src}
+                      alt={p.alt}
+                      width={2500}
+                      height={1768}
+                      sizes={
+                        p.variant === "spread"
+                          ? "(max-width: 640px) 100vw, 480px"
+                          : "(max-width: 640px) 50vw, 230px"
+                      }
+                      priority={i === 0}
+                    />
                   )}
                 </div>
                 <div className="client-name">{p.client}</div>
@@ -303,7 +314,13 @@ export default function Home() {
                   }
                 >
                   {p.src && (
-                    <Image src={p.src} alt={p.alt} width={1600} height={2400} />
+                    <Image
+                      src={p.src}
+                      alt={p.alt}
+                      width={1600}
+                      height={2400}
+                      sizes="(max-width: 640px) 100vw, 460px"
+                    />
                   )}
                 </div>
                 <div className="plate-cap">
@@ -340,7 +357,13 @@ export default function Home() {
                   }
                 >
                   {p.src && (
-                    <Image src={p.src} alt={p.alt} width={1200} height={1200} />
+                    <Image
+                      src={p.src}
+                      alt={p.alt}
+                      width={1200}
+                      height={1200}
+                      sizes="(max-width: 640px) 100vw, 460px"
+                    />
                   )}
                 </div>
                 <div className="plate-cap">
