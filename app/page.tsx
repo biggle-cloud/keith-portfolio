@@ -146,7 +146,7 @@ const designPlates: DesignPlate[] = [
     alt: "Brochure and presentation box for Seaton Carew Golf Club corporate memberships",
     client: "Seaton Carew Golf Club",
     tag: "brochure and presentation box, corporate membership pack",
-    variant: "spread",
+    variant: "full",
   },
 ];
 
