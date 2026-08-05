@@ -235,12 +235,12 @@ export default function Home() {
             quite recovered.
           </h1>
           <p className="sub">
-            Forty-odd years of commissioned design for industry and museums
-            sits alongside landscape photography and iPhone histamatics —
-            made for no client and no brief, but kept because they were
-            worth keeping. Much of what follows was commissioned. The more
-            enjoyable bits often weren&rsquo;t — the odd, the personal, and
-            the things nobody was paying for.
+            Forty-odd years of design made to other people&rsquo;s briefs
+            sits alongside photography made to none — industry and museums
+            on one side, landscapes and iPhone histamatics on the other,
+            kept for no better reason than that they were worth keeping.
+            One paid the mortgage. The other just seemed important at the
+            time.
           </p>
         </section>
 
