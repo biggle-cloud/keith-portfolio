@@ -284,10 +284,12 @@ export default function Home() {
                       width={2500}
                       height={1768}
                       sizes={
-                        p.variant === "spread"
-                          ? "(max-width: 640px) 100vw, 480px"
-                          : "(max-width: 640px) 50vw, 230px"
-                      }
+  p.variant === "full"
+    ? "100vw"
+    : p.variant === "spread"
+    ? "(max-width: 640px) 100vw, 480px"
+    : "(max-width: 640px) 50vw, 230px"
+}
                       priority={i === 0}
                     />
                   )}
