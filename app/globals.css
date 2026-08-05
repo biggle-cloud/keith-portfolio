@@ -216,7 +216,9 @@ h1{
 @media (max-width:640px){ .design-grid{ grid-template-columns:1fr 1fr; } }
 .a4-page .plate{ aspect-ratio:1/1.414; }
 .spread-page{ grid-column:span 2; }
-.spread-page .plate{ aspect-ratio:1.414/1; }
+.spread-page .plate{ aspect-ratio:1.414/1; } 
+.full-page{ grid-column: 1 / -1; }
+.full-page .plate{ aspect-ratio: 1/1; }
 .plate.filled{ background:none; }
 .plate.filled::after{ display:none; }
 .plate.filled img{ width:100%; height:100%; object-fit:cover; display:block; }
