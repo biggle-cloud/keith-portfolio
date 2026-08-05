@@ -260,7 +260,13 @@ export default function Home() {
           <div className="design-grid">
             {designPlates.map((p, i) => (
               <div
-                className={p.variant === "spread" ? "spread-page" : "a4-page"}
+               className={
+  p.variant === "full"
+    ? "full-page"
+    : p.variant === "spread"
+    ? "spread-page"
+    : "a4-page"
+}
                 key={i}
               >
                 <div
