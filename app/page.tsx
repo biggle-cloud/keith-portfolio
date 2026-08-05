@@ -141,6 +141,12 @@ const designPlates: DesignPlate[] = [
     client: "Captain Cook Memorial Museum",
     tag: "exhibition catalogue, natural history spread",
     variant: "spread",
+  },{
+    src: "/images/seaton-carew-package.jpg",
+    alt: "Brochure and presentation box for Seaton Carew Golf Club corporate memberships",
+    client: "Seaton Carew Golf Club",
+    tag: "brochure and presentation box, corporate membership pack",
+    variant: "spread",
   },
 ];
 
