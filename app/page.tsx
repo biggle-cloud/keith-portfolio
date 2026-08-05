@@ -110,7 +110,7 @@ type DesignPlate = {
   alt: string;
   client: string;
   tag: string;
-  variant: "spread" | "a4";
+ variant: "spread" | "a4" | "full";
 };
 
 const designPlates: DesignPlate[] = [
