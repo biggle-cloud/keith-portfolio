@@ -307,11 +307,14 @@ export default function Home() {
             <span className="section-note rubric-font">35mm plates</span>
           </div>
           <p className="section-intro">
-            Photographs of the miscellany most people step over, in a hurry
-            to somewhere more photogenic — colour, texture and time, aged in
-            ways no conservator would thank me for encouraging. A quiet
-            testament to transience, and to how reluctant people are to
-            throw anything away properly.
+            Miscellany, mostly — the stuff most people step over on the way
+            to somewhere more photogenic. Indoors, old coffee grinders and
+            chillies arranged on slate with more care than they deserve;
+            outdoors, Provençal house-fronts left to flake, peel and subside
+            with no such fussing at all. One is decay staged under studio
+            lights, the other is decay that&rsquo;s been getting on with it
+            for decades. Nothing here has been restored, and nothing here is
+            likely to be.
           </p>
           <div className="plates">
             {photoPlates.map((p, i) => (
