@@ -26,15 +26,43 @@ const photoPlates: Plate[] = [
   {
     num: "06",
     title: "Chili Passion",
-    src: "/images/edition-02.jpg",
+    src: "/images/HotHotHot.jpg",
     alt: "Still life of three red chillies on dark slate",
     variant: "feature",
   },
   {
     num: "07",
     title: "Garlic, Cumberland Slate",
-    src: "/images/edition-03.jpg",
+    src: "/images/Garli-on-the-slate.jpg",
     alt: "Still life of a garlic bulb on Cumberland slate",
+    variant: "feature",
+  },
+  {
+    num: "08",
+    title: "Voitures, Motocultures",
+    src: "/images/Voiture-Renault.jpg",
+    alt: "Faded Renault garage signage on a weathered Provençal building",
+    variant: "feature",
+  },
+  {
+    num: "09",
+    title: "L'Atelier Café, Chez Catherine",
+    src: "/images/LAtelierCafe.jpg",
+    alt: "Café tables and chairs beneath hand-painted signage, Provence",
+    variant: "feature",
+  },
+  {
+    num: "10",
+    title: "Maison Joyeux",
+    src: "/images/MaisonJoyeux-2.jpg",
+    alt: "Shuttered shopfront of the former Maison Joyeux, Provence",
+    variant: "feature",
+  },
+  {
+    num: "11",
+    title: "Café de la Place",
+    src: "/images/CafedelaPlace.jpg",
+    alt: "Potted palm against a weathered wall beneath the Café de la Place sign",
     variant: "feature",
   },
 ];
@@ -335,7 +363,7 @@ export default function Home() {
                       src={p.src}
                       alt={p.alt}
                       width={1600}
-                      height={2400}
+                      height={2374}
                       sizes="(max-width: 640px) 100vw, 460px"
                     />
                   )}
