@@ -259,12 +259,10 @@ export default function Home() {
             quite recovered.
           </h1>
           <p className="sub">
-            Forty-odd years of design made to other people&rsquo;s briefs
-            sits alongside photography made to none — industry and museums
-            on one side, landscapes and iPhone histamatics on the other,
-            kept for no better reason than that they were worth keeping.
-            One paid the mortgage. The other just seemed important at the
-            time.
+            Forty-odd years of design made to other people&rsquo;s briefs,
+            and photography tailored to no one but myself — industry and
+            museums on one side, landscapes and iPhone histamatics on the
+            other. One paid the mortgage. The other didn&rsquo;t need to.
           </p>
         </section>
 
