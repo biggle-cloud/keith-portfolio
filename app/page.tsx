@@ -412,7 +412,7 @@ export default function Home() {
             <span className="cf-label">Set in</span>
             EB Garamond — still the best-looking typeface anyone has
             designed — and IBM Plex Sans Condensed for anything that wants
-            to look official. Built quietly on Vercel.
+            to look official.
           </div>
         </div>
       </footer>
