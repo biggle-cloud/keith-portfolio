@@ -181,7 +181,7 @@ h1{
 .plate-wrap.wide .plate{ aspect-ratio:3/2; }
 /* feature plates sit in the normal 3-up grid, one column each */
 .plate-wrap.feature{ grid-column:span 1; }
-.plate-wrap.feature .plate{ aspect-ratio:2/3; }
+.plate-wrap.feature .plate{ aspect-ratio:1600/2374; }
 .plate::after{
   content:"plate";
   font-family:'IBM Plex Sans Condensed', sans-serif;
