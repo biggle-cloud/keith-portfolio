@@ -350,14 +350,13 @@ export default function Home() {
             <span className="section-note rubric-font">35mm plates</span>
           </div>
           <p className="section-intro">
-            Miscellany, mostly — the stuff most people step over on the way
-            to somewhere more photogenic. Indoors, old coffee grinders and
-            chillies arranged on slate with more care than they deserve;
-            outdoors, Provençal house-fronts left to flake, peel and subside
-            with no such fussing at all. One is decay staged under studio
-            lights, the other is decay that&rsquo;s been getting on with it
-            for decades. Nothing here has been restored, and nothing here is
-            likely to be.
+            Miscellany, mostly. Indoors: coffee grinders, chillies and
+            garlic, lit and arranged with more care than they&rsquo;ll ever
+            get again. Outdoors: Provençal shopfronts left to flake and
+            subside with no such fussing at all. Same subject, really —
+            decay — just one version staged under studio lights and the
+            other one decades into the job unsupervised. Nothing here has
+            been restored, and nothing here is angling to be.
           </p>
           <div className="plates">
             {photoPlates.map((p, i) => (
