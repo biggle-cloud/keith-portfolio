@@ -154,16 +154,16 @@ const designPlates: DesignPlate[] = [
   },
   {
     src: "/images/spread-06.jpg",
-    alt: "GNAT UK brochure spread, hire fleet",
+    alt: "GNAT UK brochure spread, Hydrodemolition",
     client: "GNAT UK",
-    tag: "brochure, hire fleet spread",
+    tag: "brochure, Hydrodemolition spread",
     variant: "spread",
   },
   {
     src: "/images/gnat-uk-leeds-armouries-leaflets.jpg",
     alt: "Set of ten GNAT UK service leaflets for the Leeds Armouries exhibition, covering robotic demolition, hydrodemolition, concrete cutting, top-down demolition and abrasive cold-cutting",
     client: "GNAT UK",
-    tag: "exhibition leaflet set, Leeds Armouries",
+    tag: "Folder set, Leeds Armouries Exhibition",
     variant: "full",
   },
   {
