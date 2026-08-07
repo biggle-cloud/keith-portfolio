@@ -193,6 +193,13 @@ const designPlates: DesignPlate[] = [
     tag: "brochure and presentation box, corporate membership pack",
     variant: "full",
   },
+  {
+    src: "/images/Old-Casper-Client-now-elsewhere.jpg",
+    alt: "Six brochure pages for Casper Shipping's Import/Export, Offshore, Tanker and Dry Cargo agency services, and Camair Freight Solutions",
+    client: "Casper Shipping / Camair Freight Solutions",
+    tag: "Kept as it stood at the time — since moved on to other hands.",
+    variant: "full",
+  },
 ];
 
 type LightboxState = {
