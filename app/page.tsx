@@ -61,6 +61,13 @@ const photoPlates: Plate[] = [
     alt: "Potted palm against a weathered wall beneath the Café de la Place sign",
     variant: "feature",
   },
+  {
+    num: "08",
+    title: "Germany not so sure",
+    src: "/images/edition-08.jpg",
+    alt: "Still life of garlic bulbs and a vintage radio on a 1941 French newspaper, La Dépêche, with wartime headlines",
+    variant: "feature",
+  },
 ];
 
 const histamaticPlates: Plate[] = [
