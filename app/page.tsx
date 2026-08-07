@@ -160,6 +160,13 @@ const designPlates: DesignPlate[] = [
     variant: "spread",
   },
   {
+    src: "/images/gnat-uk-leeds-armouries-leaflets.jpg",
+    alt: "Set of ten GNAT UK service leaflets for the Leeds Armouries exhibition, covering robotic demolition, hydrodemolition, concrete cutting, top-down demolition and abrasive cold-cutting",
+    client: "GNAT UK",
+    tag: "exhibition leaflet set, Leeds Armouries",
+    variant: "full",
+  },
+  {
     src: "/images/cook-catalogue-01.jpg",
     alt: "Whitby in the Time of Cook, exhibition catalogue pages",
     client: "Captain Cook Memorial Museum",
