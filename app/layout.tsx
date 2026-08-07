@@ -14,10 +14,10 @@ export const metadata: Metadata = {
     siteName: "Keith Hodgson",
     images: [
       {
-        url: "/images/spread-01.jpg",
-        width: 2500,
-        height: 1768,
-        alt: "GNAT UK brochure cover spread, by Keith Hodgson",
+        url: "/images/histamatic-08.jpg",
+        width: 2048,
+        height: 2046,
+        alt: "Silhouetted tree at sunrise with sheep, Skutterskelfe, by Keith Hodgson",
       },
     ],
     locale: "en_GB",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     title: "Keith Hodgson — photography & design",
     description:
       "An archive, not a shopfront — photography and design work by Keith Hodgson.",
-    images: ["/images/spread-01.jpg"],
+    images: ["/images/histamatic-08.jpg"],
   },
   robots: {
     index: true,
