@@ -154,9 +154,9 @@ const designPlates: DesignPlate[] = [
   },
   {
     src: "/images/spread-06.jpg",
-    alt: "GNAT UK brochure spread, hire fleet",
+    alt: "GNAT UK brochure spread, Hydrodemolition",
     client: "GNAT UK",
-    tag: "brochure, hire fleet spread",
+    tag: "brochure, Hydrodemolition spread",
     variant: "spread",
   },
   {
