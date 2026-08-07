@@ -163,7 +163,7 @@ const designPlates: DesignPlate[] = [
     src: "/images/gnat-uk-leeds-armouries-leaflets.jpg",
     alt: "Set of ten GNAT UK service leaflets for the Leeds Armouries exhibition, covering robotic demolition, hydrodemolition, concrete cutting, top-down demolition and abrasive cold-cutting",
     client: "GNAT UK",
-    tag: "exhibition leaflet set, Leeds Armouries",
+    tag: "Folder set, Leeds Armouries Exhibition",
     variant: "full",
   },
   {
