@@ -68,6 +68,13 @@ const photoPlates: Plate[] = [
     alt: "Still life of garlic bulbs and a vintage radio on a 1941 French newspaper, La Dépêche, with wartime headlines",
     variant: "feature",
   },
+  {
+    num: "09",
+    title: "Clove Actually",
+    src: "/images/Clove-Actually.jpg",
+    alt: "Still life of a garlic bulb split open on dark slate, revealing red-skinned cloves",
+    variant: "feature",
+  },
 ];
 
 const histamaticPlates: Plate[] = [
