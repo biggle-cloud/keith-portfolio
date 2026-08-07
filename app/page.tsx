@@ -197,7 +197,7 @@ const designPlates: DesignPlate[] = [
     src: "/images/Old-Casper-Client-now-elsewhere.jpg",
     alt: "Six brochure pages for Casper Shipping's Import/Export, Offshore, Tanker and Dry Cargo agency services, and Camair Freight Solutions",
     client: "Casper Shipping / Camair Freight Solutions",
-    tag: "Kept as it stood at the time — since moved on to other hands.",
+    tag: "Kept as it stood at the time — Casper's moved on to other hands, but this one hasn't aged a day.",
     variant: "full",
   },
 ];
