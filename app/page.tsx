@@ -28,9 +28,9 @@ const photoPlates: Plate[] = [
   },
   {
     num: "03",
-    title: "Garlic, Cumberland Slate",
-    src: "/images/Garli-on-the-slate.jpg",
-    alt: "Still life of a garlic bulb on Cumberland slate",
+    title: "Men's Club, Sanary-sur-Mer",
+    src: "/images/MensClub-SanarySurMer.jpg",
+    alt: "Faded 'Men's Club' shop signage beside a weathered doorway in Sanary-sur-Mer",
     variant: "feature",
   },
   {
