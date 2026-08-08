@@ -449,9 +449,11 @@ export default function Home() {
             <span className="cf-label">Enquiries</span>
             This site replaces one with a shop attached. It sold limited
             prints and cards, reasonably well — a pleasant sideline to the
-            work that actually mattered. I keep busy enough as it is. But
-            if you&rsquo;ve got a problem good design can actually resolve,
-            that&rsquo;s a different matter.
+            work that actually mattered. I keep busy enough as it is.
+            <br />
+            <br />
+            But if you&rsquo;ve got a problem good design can actually
+            resolve, that&rsquo;s a different matter.
           </div>
           <div className="colophon-row">
             <span className="cf-label">Contact</span>
