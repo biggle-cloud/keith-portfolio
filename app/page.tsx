@@ -175,9 +175,9 @@ const designPlates: DesignPlate[] = [
   },
   {
     src: "/images/GnatUK-LeedsArmouries.jpg",
-    alt: "GNAT-UK 'Selective Demolition Solutions' exhibition handout, Leeds Armouries",
+    alt: "GNAT-UK 'Selective Demolition Solutions' exhibition stand graphic, Leeds Armouries",
     client: "GNAT UK",
-    tag: "exhibition handout, Leeds Armouries — a captive audience of medieval weaponry enthusiasts, mercifully undemolished",
+    tag: "Exhibition stand, Leeds Armouries — a captive audience of medieval weaponry enthusiasts, mercifully undemolished",
     variant: "wide",
   },
   {
