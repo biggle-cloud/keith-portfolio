@@ -148,7 +148,7 @@ type DesignPlate = {
   alt: string;
   client: string;
   tag: string;
- variant: "spread" | "a4" | "full";
+ variant: "spread" | "a4" | "full" | "wide";
 };
 
 const designPlates: DesignPlate[] = [
@@ -178,7 +178,7 @@ const designPlates: DesignPlate[] = [
     alt: "GNAT-UK 'Selective Demolition Solutions' exhibition handout, Leeds Armouries",
     client: "GNAT UK",
     tag: "exhibition handout, Leeds Armouries — a captive audience of medieval weaponry enthusiasts, mercifully undemolished",
-    variant: "full",
+    variant: "wide",
   },
   {
     src: "/images/cook-catalogue-01.jpg",
@@ -320,6 +320,8 @@ export default function Home() {
                className={
   p.variant === "full"
     ? "full-page"
+    : p.variant === "wide"
+    ? "full-page wide-page"
     : p.variant === "spread"
     ? "spread-page"
     : "a4-page"
@@ -341,7 +343,7 @@ export default function Home() {
                       width={2500}
                       height={1768}
                       sizes={
-  p.variant === "full"
+  p.variant === "full" || p.variant === "wide"
     ? "100vw"
     : p.variant === "spread"
     ? "(max-width: 640px) 100vw, 480px"
