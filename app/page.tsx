@@ -174,6 +174,13 @@ const designPlates: DesignPlate[] = [
     variant: "full",
   },
   {
+    src: "/images/GnatUK-LeedsArmouries.jpg",
+    alt: "GNAT-UK 'Selective Demolition Solutions' exhibition handout, Leeds Armouries",
+    client: "GNAT UK",
+    tag: "exhibition handout, Leeds Armouries — a captive audience of medieval weaponry enthusiasts, mercifully undemolished",
+    variant: "full",
+  },
+  {
     src: "/images/cook-catalogue-01.jpg",
     alt: "Whitby in the Time of Cook, exhibition catalogue pages",
     client: "Captain Cook Memorial Museum",
