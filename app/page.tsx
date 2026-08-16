@@ -9,6 +9,7 @@ type Plate = {
   src: string | null;
   alt: string;
   variant?: "square" | "wide" | "feature";
+  description?: string;
 };
 
 const photoPlates: Plate[] = [
@@ -84,6 +85,8 @@ const histamaticPlates: Plate[] = [
     src: "/images/histamatic-06.jpg",
     alt: "Dark round object in an old wooden trough, iPhone",
     variant: "square",
+    description:
+      "Found in the half-light of a building where everything appeared to have been put down temporarily about fifty years ago. The round object may once have served an essential purpose; the wooden arrangement certainly looks as though it remembers. Neither offered an explanation.",
   },
   {
     num: "02",
@@ -91,6 +94,8 @@ const histamaticPlates: Plate[] = [
     src: "/images/histamatic-01.jpg",
     alt: "Carved initials, weathered wood, iPhone",
     variant: "square",
+    description:
+      "Several generations have scratched their initials into the surface in the reasonable expectation of permanence. Time, weather and moss are now editing the collection, gradually turning minor vandalism into local history.",
   },
   {
     num: "03",
@@ -98,6 +103,8 @@ const histamaticPlates: Plate[] = [
     src: "/images/histamatic-02.jpg",
     alt: "Bluebells by the water, iPhone",
     variant: "square",
+    description:
+      "Bluebells providing the colour in the foreground while the far shore takes responsibility for scale, distance and general magnificence. A sensible division of labour, requiring very little intervention from the photographer.",
   },
   {
     num: "04",
@@ -105,6 +112,8 @@ const histamaticPlates: Plate[] = [
     src: "/images/histamatic-03.jpg",
     alt: "Old kettle, Calke Abbey, iPhone",
     variant: "square",
+    description:
+      "Once responsible for keeping somebody supplied with tea, this kettle now sits permanently in a dark corner, polished by age and relieved of duty. Its surroundings have become considerably more colourful since retirement, although that may be the filter.",
   },
   {
     num: "05",
@@ -112,6 +121,8 @@ const histamaticPlates: Plate[] = [
     src: "/images/histamatic-04.jpg",
     alt: "Curlew specimen behind glass, Calke Abbey, iPhone",
     variant: "square",
+    description:
+      "A curlew photographed at unusually close quarters and with none of the customary objection. It held the pose perfectly and allowed ample time for composition. There are, on reflection, disadvantages to such complete cooperation.",
   },
   {
     num: "06",
@@ -119,6 +130,8 @@ const histamaticPlates: Plate[] = [
     src: "/images/histamatic-05.jpg",
     alt: "Kingfisher specimen behind glass, Calke Abbey, iPhone",
     variant: "square",
+    description:
+      "All the colour and detail normally glimpsed as a small blue blur disappearing upstream. This one remained impeccably still. Only after waiting for it to fly did it become apparent that the patience was entirely one-sided.",
   },
   {
     num: "07",
@@ -126,6 +139,8 @@ const histamaticPlates: Plate[] = [
     src: "/images/histamatic-07.jpg",
     alt: "Path through a bluebell wood, iPhone",
     variant: "square",
+    description:
+      "A wood doing what English woods do best for a few weeks each spring: carpeting the ground with bluebells and making every possible route look faintly irresponsible. The obvious path had wandered off elsewhere.",
   },
   {
     num: "08",
@@ -133,6 +148,8 @@ const histamaticPlates: Plate[] = [
     src: "/images/histamatic-08.jpg",
     alt: "Silhouetted tree at sunrise with sheep, Skutterskelfe",
     variant: "square",
+    description:
+      "A mature Sycamore near Skutterskelfe, caught as the rising sun appeared beneath its lower branches and briefly arranged everything to the photographer's advantage. The sheep remained unimpressed; they see it every morning and know better than to offer encouragement.",
   },
   {
     num: "09",
@@ -140,6 +157,8 @@ const histamaticPlates: Plate[] = [
     src: "/images/histamatic-09.jpg",
     alt: "Electricity pole and wires against a blue sky, iPhone",
     variant: "square",
+    description:
+      "A pole-top arrangement of wires, insulators and determined optimism, set against a sky blue enough to make rural infrastructure look heroic. It has presumably delivered electricity for years without feeling any need to explain how.",
   },
 ];
 
@@ -255,6 +274,8 @@ export default function Home() {
   const currentTitle =
     current && "title" in current ? current.title : current?.client;
   const currentTag = current && "tag" in current ? current.tag : null;
+  const currentDescription =
+    current && "description" in current ? current.description : null;
 
   return (
     <div className="page">
@@ -510,6 +531,9 @@ export default function Home() {
                 <span className="lightbox-tag"> — {currentTag}</span>
               )}
             </div>
+            {currentDescription && (
+              <div className="lightbox-description">{currentDescription}</div>
+            )}
           </div>
           <button
             className="lightbox-arrow lightbox-next"
