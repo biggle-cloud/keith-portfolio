@@ -216,7 +216,7 @@ const designPlates: DesignPlate[] = [
     src: "/images/seaton-carew-package.jpg",
     alt: "Brochure and presentation box for Seaton Carew Golf Club corporate memberships",
     client: "Seaton Carew Golf Club",
-    tag: "brochure and presentation box, corporate membership pack",
+    tag: "Corporate Membership Pack — Advice from Beyond the Grave on Corporate Golf, Peacock’s Tongues and the Proper Treatment of an Impudent Caddy",
     variant: "full",
   },
   {
