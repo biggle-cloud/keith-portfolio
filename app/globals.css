@@ -283,6 +283,17 @@ footer{
   flex-direction:column;
   align-items:center;
   overflow-y:auto;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(242,238,227,0.35) transparent;
+}
+.lightbox-body::-webkit-scrollbar{ width:6px; }
+.lightbox-body::-webkit-scrollbar-track{ background:transparent; }
+.lightbox-body::-webkit-scrollbar-thumb{
+  background:rgba(242,238,227,0.35);
+  border-radius:3px;
+}
+.lightbox-body::-webkit-scrollbar-thumb:hover{
+  background:rgba(242,238,227,0.55);
 }
 .lightbox-body img{
   max-width:100%;
