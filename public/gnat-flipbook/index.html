@@ -368,6 +368,23 @@
     }
   });
 
+  // The book only actually resizes when a native 'resize' event reaches
+  // it (that's what the page-flip library and our own updateCoverCrop
+  // both listen for). Entering/leaving fullscreen changes the available
+  // space but, unlike a real window resize, real browsers animate that
+  // transition over a couple of hundred ms — so a resize event that
+  // fires the instant 'fullscreenchange' does can still catch a
+  // half-finished layout and leave the book stuck at an in-between
+  // size. Re-check a few times across the transition window so it
+  // always ends up matching the fully-settled size, not a partial one.
+  function recalcAcrossTransition(){
+    [0, 60, 150, 300, 600].forEach(function(delay){
+      setTimeout(function(){ window.dispatchEvent(new Event('resize')); }, delay);
+    });
+  }
+  document.addEventListener('fullscreenchange', recalcAcrossTransition);
+  document.addEventListener('webkitfullscreenchange', recalcAcrossTransition);
+
   // Fallback: hide loader after a timeout even if 'init' event doesn't fire as expected
   setTimeout(function(){
     if(loadingEl.style.display !== 'none'){
