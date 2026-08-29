@@ -360,9 +360,17 @@
   });
 
   fsBtn.addEventListener('click', function(){
-    var el = document.documentElement;
+    // If we're embedded in an iframe (same-origin), fullscreen the
+    // <iframe> element itself as the parent page sees it — the same
+    // mechanism embedded video players use. Fullscreening our own inner
+    // document from inside the iframe is known to be unreliable in
+    // Safari/WebKit for resizing nested content to fill the screen, so
+    // prefer the frame element when we can reach it; fall back to
+    // fullscreening our own document when we're not embedded (or the
+    // frame reference isn't reachable, e.g. truly cross-origin).
+    var target = window.frameElement || document.documentElement;
     if(!document.fullscreenElement){
-      (el.requestFullscreen || el.webkitRequestFullscreen || function(){}).call(el);
+      (target.requestFullscreen || target.webkitRequestFullscreen || function(){}).call(target);
     } else {
       (document.exitFullscreen || document.webkitExitFullscreen || function(){}).call(document);
     }
