@@ -190,7 +190,7 @@ const designPlates: DesignPlate[] = [
     src: null,
     alt: "GNAT UK brochure, interactive page-flip edition, all 24 pages",
     client: "GNAT UK",
-    tag: "brochure, in full — an interactive flip-through of all 24 pages, for anyone the two spreads above left wanting more",
+    tag: "For anyone the two spreads above left wanting more — the full 24 pages, brought down here rather more gently than usual.",
     variant: "embed",
     embedSrc: "/gnat-flipbook/index.html",
   },
