@@ -41,6 +41,18 @@
   }
   .stage{overflow:hidden;}
   #book{
+    /* The page-flip library only ever sets width:100% on this element
+       itself (see autoSize in its own JS); height is left as "auto",
+       which for a flex item under align-items:center collapses to its
+       (absolutely-positioned, so empty) content height. That leaves the
+       book's own canvas -- a child sized at CSS height:100% -- with no
+       definite height to resolve against, so the library's internal
+       "how much vertical space do I have" measurement doesn't reliably
+       track the stage's real height and can compute a book taller than
+       actually fits on screen. Giving #book an explicit height ties it
+       to the stage's real, current height so that measurement is
+       accurate in the embed, in a resized window, and in fullscreen. */
+    height:100%;
     box-shadow:0 20px 50px rgba(27,26,23,0.22);
     transition:transform .25s ease;
   }
@@ -442,6 +454,7 @@
       document.body.appendChild(dbgEl);
     }
     var canvasEl = bookEl.querySelector('canvas.stf__canvas');
+    var canvasComputed = canvasEl ? getComputedStyle(canvasEl) : null;
     var rect = pageFlip.getBoundsRect();
     dbgEl.style.display = 'block';
     dbgEl.textContent =
@@ -449,7 +462,7 @@
       'window (this doc): ' + window.innerWidth + 'x' + window.innerHeight + '\n' +
       'stage client:      ' + stageEl.clientWidth + 'x' + stageEl.clientHeight + '\n' +
       'book offset:       ' + bookEl.offsetWidth + 'x' + bookEl.offsetHeight + '\n' +
-      'canvas style:       ' + (canvasEl ? canvasEl.style.width + ' x ' + canvasEl.style.height : 'n/a') + '\n' +
+      'canvas computed:    ' + (canvasComputed ? canvasComputed.width + ' x ' + canvasComputed.height : 'n/a') + '\n' +
       'boundsRect:         ' + (rect ? Math.round(rect.pageWidth) + ' x ' + Math.round(rect.height) : 'n/a');
   }
 
