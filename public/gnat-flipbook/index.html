@@ -204,6 +204,55 @@
 
   var PAGE_W = 1241, PAGE_H = 1754;
 
+  // Retina / HiDPI fix. The underlying page-flip library sizes its
+  // internal <canvas> pixel buffer to exactly match the canvas's CSS
+  // display size (see its CanvasUI.resizeCanvas: canvas.width =
+  // computedStyleWidth), with no regard for window.devicePixelRatio.
+  // On a HiDPI screen (Retina Macs, 4K/5K monitors) that leaves the
+  // canvas permanently rendered at 1x and then stretched by the
+  // browser to cover the physical pixel grid, which is what makes the
+  // page art and text look soft — worse the smaller the book renders,
+  // which is why a bigger window/fullscreen looks comparatively sharper.
+  //
+  // We can't edit the bundled library, so instead we patch the one
+  // canvas element it creates: intercept every canvas.width/height
+  // assignment it makes (always a CSS-pixel value) and transparently
+  // back it with devicePixelRatio-times more physical pixels, scaling
+  // the drawing context to match. The library keeps reading and
+  // writing the same CSS-pixel numbers it always has; only the actual
+  // backing store gets sharper.
+  function patchCanvasForHiDPI(canvas){
+    var dpr = window.devicePixelRatio || 1;
+    if(dpr <= 1 || canvas.__hiDpiPatched) return;
+    canvas.__hiDpiPatched = true;
+    var ctx = canvas.getContext('2d');
+    var widthDesc = Object.getOwnPropertyDescriptor(HTMLCanvasElement.prototype, 'width');
+    var heightDesc = Object.getOwnPropertyDescriptor(HTMLCanvasElement.prototype, 'height');
+    Object.defineProperty(canvas, 'width', {
+      configurable: true,
+      get: function(){ return Math.round(widthDesc.get.call(this) / dpr); },
+      set: function(cssW){
+        widthDesc.set.call(this, Math.round(cssW * dpr));
+        this.style.width = cssW + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+    });
+    Object.defineProperty(canvas, 'height', {
+      configurable: true,
+      get: function(){ return Math.round(heightDesc.get.call(this) / dpr); },
+      set: function(cssH){
+        heightDesc.set.call(this, Math.round(cssH * dpr));
+        this.style.height = cssH + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+    });
+    // Re-apply the size the library already set (pre-patch, at 1x)
+    // through the patched setters so the very first frame is sharp too.
+    var cs = getComputedStyle(canvas);
+    canvas.width = parseInt(cs.width, 10);
+    canvas.height = parseInt(cs.height, 10);
+  }
+
   var pageFlip = new St.PageFlip(bookEl, {
     width: PAGE_W,
     height: PAGE_H,
@@ -221,6 +270,9 @@
   });
 
   pageFlip.loadFromImages(pages);
+
+  var __canvasEl = bookEl.querySelector('canvas.stf__canvas');
+  if(__canvasEl) patchCanvasForHiDPI(__canvasEl);
 
   var maskLeft = document.getElementById('maskLeft');
   var maskRight = document.getElementById('maskRight');
