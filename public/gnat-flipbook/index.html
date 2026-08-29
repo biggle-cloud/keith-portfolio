@@ -228,12 +228,24 @@
     var ctx = canvas.getContext('2d');
     var widthDesc = Object.getOwnPropertyDescriptor(HTMLCanvasElement.prototype, 'width');
     var heightDesc = Object.getOwnPropertyDescriptor(HTMLCanvasElement.prototype, 'height');
+    // IMPORTANT: this must NOT also set canvas.style.width/height as a
+    // fixed pixel value. The library's own stylesheet already sizes the
+    // canvas responsively (".stf__parent canvas{width:100%;height:100%}"
+    // relative to #book, which in turn tracks the stage). Worse, for the
+    // loadFromImages() path the library measures "available space" by
+    // reading the CANVAS's own offsetWidth/offsetHeight back (it's used
+    // directly as the size-detection element) -- so pinning style.width
+    // to a literal px value here doesn't just stop the canvas from
+    // growing, it also permanently freezes the *input* to every future
+    // size calculation at whatever the canvas happened to be on first
+    // paint, no matter how much the surrounding layout later changes.
+    // That was the actual cause of the book staying stuck at its
+    // original small size in fullscreen (and on any other resize).
     Object.defineProperty(canvas, 'width', {
       configurable: true,
       get: function(){ return Math.round(widthDesc.get.call(this) / dpr); },
       set: function(cssW){
         widthDesc.set.call(this, Math.round(cssW * dpr));
-        this.style.width = cssW + 'px';
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       }
     });
@@ -242,7 +254,6 @@
       get: function(){ return Math.round(heightDesc.get.call(this) / dpr); },
       set: function(cssH){
         heightDesc.set.call(this, Math.round(cssH * dpr));
-        this.style.height = cssH + 'px';
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       }
     });
