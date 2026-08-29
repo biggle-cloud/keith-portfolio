@@ -366,6 +366,8 @@ export default function Home() {
                       src={p.embedSrc}
                       title={p.alt}
                       loading="lazy"
+                      allow="fullscreen"
+                      allowFullScreen
                     />
                   </div>
                 ) : (
