@@ -418,7 +418,6 @@
     relayoutTimer = setTimeout(function(){
       try { pageFlip.update(); } catch(e){}
       updateCoverCrop();
-      updateDebugOverlay();
     }, 40);
   }
   if(window.ResizeObserver){
@@ -431,40 +430,6 @@
   document.addEventListener('webkitfullscreenchange', function(){
     [0, 60, 150, 300, 600].forEach(function(delay){ setTimeout(forceRelayout, delay); });
   });
-
-  // TEMPORARY diagnostic overlay -- two earlier fixes both failed to
-  // properly expand the book on the user's real hardware, in ways this
-  // dev environment can't reproduce (headless/automated browsers here
-  // either don't show the sizing bug at all, or refuse to grant
-  // Fullscreen to a simulated click outright). Surfaces live
-  // measurements on screen so the next real-device screenshot shows
-  // exactly what is/isn't resizing. Safe to delete once confirmed fixed.
-  var dbgEl = null;
-  function updateDebugOverlay(){
-    var fe = getFsElement();
-    if(!fe){
-      if(dbgEl) dbgEl.style.display = 'none';
-      return;
-    }
-    if(!dbgEl){
-      dbgEl = document.createElement('div');
-      dbgEl.style.cssText = 'position:fixed;top:8px;left:8px;z-index:99999;'
-        + 'background:rgba(0,0,0,0.82);color:#0f0;font:11px/1.5 monospace;'
-        + 'padding:8px 10px;border-radius:6px;white-space:pre;pointer-events:none;';
-      document.body.appendChild(dbgEl);
-    }
-    var canvasEl = bookEl.querySelector('canvas.stf__canvas');
-    var canvasComputed = canvasEl ? getComputedStyle(canvasEl) : null;
-    var rect = pageFlip.getBoundsRect();
-    dbgEl.style.display = 'block';
-    dbgEl.textContent =
-      'fullscreenElement: ' + fe.tagName + (fe.id ? '#' + fe.id : '') + '\n' +
-      'window (this doc): ' + window.innerWidth + 'x' + window.innerHeight + '\n' +
-      'stage client:      ' + stageEl.clientWidth + 'x' + stageEl.clientHeight + '\n' +
-      'book offset:       ' + bookEl.offsetWidth + 'x' + bookEl.offsetHeight + '\n' +
-      'canvas computed:    ' + (canvasComputed ? canvasComputed.width + ' x ' + canvasComputed.height : 'n/a') + '\n' +
-      'boundsRect:         ' + (rect ? Math.round(rect.pageWidth) + ' x ' + Math.round(rect.height) : 'n/a');
-  }
 
   // Fallback: hide loader after a timeout even if 'init' event doesn't fire as expected
   setTimeout(function(){
