@@ -344,12 +344,6 @@
     setTimeout(function(){ loadingEl.style.display = 'none'; }, 400);
   });
 
-  var resizeTimer = null;
-  window.addEventListener('resize', function(){
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(updateCoverCrop, 120);
-  });
-
   prevBtn.addEventListener('click', function(){ pageFlip.flipPrev(); });
   nextBtn.addEventListener('click', function(){ pageFlip.flipNext(); });
   firstBtn.addEventListener('click', function(){ pageFlip.flip(0); });
@@ -359,54 +353,73 @@
     if(e.key === 'ArrowRight') pageFlip.flipNext();
   });
 
-  fsBtn.addEventListener('click', function(){
-    // If we're embedded in an iframe (same-origin), fullscreen the
-    // <iframe> element itself as the parent page sees it — the same
-    // mechanism embedded video players use. Fullscreening our own inner
-    // document from inside the iframe is known to be unreliable in
-    // Safari/WebKit for resizing nested content to fill the screen, so
-    // prefer the frame element when we can reach it; fall back to
-    // fullscreening our own document when we're not embedded (or the
-    // frame reference isn't reachable, e.g. truly cross-origin).
-    var target = window.frameElement || document.documentElement;
-    if(!document.fullscreenElement){
-      (target.requestFullscreen || target.webkitRequestFullscreen || function(){}).call(target);
-    } else {
-      (document.exitFullscreen || document.webkitExitFullscreen || function(){}).call(document);
-    }
-  });
-
-  // The book only actually resizes when a native 'resize' event reaches
-  // it (that's what the page-flip library and our own updateCoverCrop
-  // both listen for). Entering/leaving fullscreen changes the available
-  // space but, unlike a real window resize, real browsers animate that
-  // transition over a couple of hundred ms — so a resize event that
-  // fires the instant 'fullscreenchange' does can still catch a
-  // half-finished layout and leave the book stuck at an in-between
-  // size. Re-check a few times across the transition window so it
-  // always ends up matching the fully-settled size, not a partial one.
-  function recalcAcrossTransition(){
-    [0, 60, 150, 300, 600].forEach(function(delay){
-      setTimeout(function(){
-        window.dispatchEvent(new Event('resize'));
-        updateDebugOverlay();
-      }, delay);
+  // Safari (desktop) only ever exposes the webkit-prefixed fullscreen
+  // properties -- document.fullscreenElement stays permanently null
+  // there even while genuinely fullscreen -- so any check of "are we
+  // currently fullscreen?" has to look at both. Mobile Safari (and any
+  // iOS browser, since they all embed WebKit) doesn't support
+  // fullscreening arbitrary elements at all, only <video>; feature-detect
+  // that and hide the button rather than leave a control that does
+  // nothing when tapped.
+  function getFsElement(){
+    return document.fullscreenElement || document.webkitFullscreenElement || document.webkitCurrentFullScreenElement || null;
+  }
+  var fsSupported = !!(document.fullscreenEnabled || document.webkitFullscreenEnabled);
+  if(!fsSupported){
+    fsBtn.style.display = 'none';
+  } else {
+    fsBtn.addEventListener('click', function(){
+      var el = document.documentElement;
+      if(!getFsElement()){
+        (el.requestFullscreen || el.webkitRequestFullscreen || function(){}).call(el);
+      } else {
+        (document.exitFullscreen || document.webkitExitFullscreen || function(){}).call(document);
+      }
     });
   }
-  document.addEventListener('fullscreenchange', recalcAcrossTransition);
-  document.addEventListener('webkitfullscreenchange', recalcAcrossTransition);
 
-  // TEMPORARY diagnostic overlay — the fullscreen button has failed to
-  // properly expand the book on the user's real hardware twice now,
-  // in ways this dev environment cannot reproduce (headless/automated
-  // browsers here either don't reproduce the sizing bug at all, or
-  // refuse to grant Fullscreen to a simulated click outright). Rather
-  // than guess a third time, surface the actual live measurements on
-  // screen so the next real-device screenshot tells us exactly what's
-  // wrong. Safe to delete once the real cause is found.
+  // The book's own size is driven by page-flip's internal canvas, which
+  // only recalculates when explicitly told to. Neither a native 'resize'
+  // event nor 'fullscreenchange' can be counted on to reach this
+  // document reliably during a fullscreen transition -- tested live and
+  // found not to fire consistently (the stage visibly grows to fill the
+  // screen via plain CSS layout, but nothing here is ever notified to
+  // re-run the canvas-sizing math). A ResizeObserver on the stage
+  // sidesteps that entirely: it fires whenever the stage's own rendered
+  // box actually changes size, for whatever reason, so it catches the
+  // fullscreen transition (and any other layout change) directly
+  // instead of inferring it from an event that may not arrive.
+  var relayoutTimer = null;
+  function forceRelayout(){
+    clearTimeout(relayoutTimer);
+    relayoutTimer = setTimeout(function(){
+      try { pageFlip.update(); } catch(e){}
+      updateCoverCrop();
+      updateDebugOverlay();
+    }, 40);
+  }
+  if(window.ResizeObserver){
+    new ResizeObserver(forceRelayout).observe(stageEl);
+  }
+  window.addEventListener('resize', forceRelayout);
+  document.addEventListener('fullscreenchange', function(){
+    [0, 60, 150, 300, 600].forEach(function(delay){ setTimeout(forceRelayout, delay); });
+  });
+  document.addEventListener('webkitfullscreenchange', function(){
+    [0, 60, 150, 300, 600].forEach(function(delay){ setTimeout(forceRelayout, delay); });
+  });
+
+  // TEMPORARY diagnostic overlay -- two earlier fixes both failed to
+  // properly expand the book on the user's real hardware, in ways this
+  // dev environment can't reproduce (headless/automated browsers here
+  // either don't show the sizing bug at all, or refuse to grant
+  // Fullscreen to a simulated click outright). Surfaces live
+  // measurements on screen so the next real-device screenshot shows
+  // exactly what is/isn't resizing. Safe to delete once confirmed fixed.
   var dbgEl = null;
   function updateDebugOverlay(){
-    if(!document.fullscreenElement){
+    var fe = getFsElement();
+    if(!fe){
       if(dbgEl) dbgEl.style.display = 'none';
       return;
     }
@@ -417,8 +430,8 @@
         + 'padding:8px 10px;border-radius:6px;white-space:pre;pointer-events:none;';
       document.body.appendChild(dbgEl);
     }
-    var fe = document.fullscreenElement;
     var canvasEl = bookEl.querySelector('canvas.stf__canvas');
+    var rect = pageFlip.getBoundsRect();
     dbgEl.style.display = 'block';
     dbgEl.textContent =
       'fullscreenElement: ' + fe.tagName + (fe.id ? '#' + fe.id : '') + '\n' +
@@ -426,10 +439,8 @@
       'stage client:      ' + stageEl.clientWidth + 'x' + stageEl.clientHeight + '\n' +
       'book offset:       ' + bookEl.offsetWidth + 'x' + bookEl.offsetHeight + '\n' +
       'canvas style:       ' + (canvasEl ? canvasEl.style.width + ' x ' + canvasEl.style.height : 'n/a') + '\n' +
-      'frameElement:       ' + (window.frameElement ? 'present' : 'null (top doc)');
+      'boundsRect:         ' + (rect ? Math.round(rect.pageWidth) + ' x ' + Math.round(rect.height) : 'n/a');
   }
-  document.addEventListener('fullscreenchange', updateDebugOverlay);
-  document.addEventListener('webkitfullscreenchange', updateDebugOverlay);
 
   // Fallback: hide loader after a timeout even if 'init' event doesn't fire as expected
   setTimeout(function(){
