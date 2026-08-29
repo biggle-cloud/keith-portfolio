@@ -167,7 +167,8 @@ type DesignPlate = {
   alt: string;
   client: string;
   tag: string;
- variant: "spread" | "a4" | "full" | "wide";
+ variant: "spread" | "a4" | "full" | "wide" | "embed";
+  embedSrc?: string;
 };
 
 const designPlates: DesignPlate[] = [
@@ -184,6 +185,14 @@ const designPlates: DesignPlate[] = [
     client: "GNAT UK",
     tag: "brochure, Hydrodemolition spread",
     variant: "spread",
+  },
+  {
+    src: null,
+    alt: "GNAT UK brochure, interactive page-flip edition, all 24 pages",
+    client: "GNAT UK",
+    tag: "brochure, in full — an interactive flip-through of all 24 pages, for anyone the two spreads above left wanting more",
+    variant: "embed",
+    embedSrc: "/gnat-flipbook/index.html",
   },
   {
     src: "/images/gnat-uk-leeds-armouries-leaflets.jpg",
@@ -339,7 +348,9 @@ export default function Home() {
             {designPlates.map((p, i) => (
               <div
                className={
-  p.variant === "full"
+  p.variant === "embed"
+    ? "full-page embed-page"
+    : p.variant === "full"
     ? "full-page"
     : p.variant === "wide"
     ? "full-page wide-page"
@@ -349,31 +360,41 @@ export default function Home() {
 }
                 key={i}
               >
-                <div
-                  className={`plate${p.src ? " filled clickable" : ""}`}
-                  onClick={
-                    p.src
-                      ? () => setLightbox({ group: "design", index: i })
-                      : undefined
-                  }
-                >
-                  {p.src && (
-                    <Image
-                      src={p.src}
-                      alt={p.alt}
-                      width={2500}
-                      height={1768}
-                      sizes={
+                {p.variant === "embed" ? (
+                  <div className="plate filled embed-plate">
+                    <iframe
+                      src={p.embedSrc}
+                      title={p.alt}
+                      loading="lazy"
+                    />
+                  </div>
+                ) : (
+                  <div
+                    className={`plate${p.src ? " filled clickable" : ""}`}
+                    onClick={
+                      p.src
+                        ? () => setLightbox({ group: "design", index: i })
+                        : undefined
+                    }
+                  >
+                    {p.src && (
+                      <Image
+                        src={p.src}
+                        alt={p.alt}
+                        width={2500}
+                        height={1768}
+                        sizes={
   p.variant === "full" || p.variant === "wide"
     ? "100vw"
     : p.variant === "spread"
     ? "(max-width: 640px) 100vw, 480px"
     : "(max-width: 640px) 50vw, 230px"
 }
-                      priority={i === 0}
-                    />
-                  )}
-                </div>
+                        priority={i === 0}
+                      />
+                    )}
+                  </div>
+                )}
                 <div className="client-name">{p.client}</div>
                 <div className="client-tag">{p.tag}</div>
               </div>
