@@ -387,11 +387,49 @@
   // always ends up matching the fully-settled size, not a partial one.
   function recalcAcrossTransition(){
     [0, 60, 150, 300, 600].forEach(function(delay){
-      setTimeout(function(){ window.dispatchEvent(new Event('resize')); }, delay);
+      setTimeout(function(){
+        window.dispatchEvent(new Event('resize'));
+        updateDebugOverlay();
+      }, delay);
     });
   }
   document.addEventListener('fullscreenchange', recalcAcrossTransition);
   document.addEventListener('webkitfullscreenchange', recalcAcrossTransition);
+
+  // TEMPORARY diagnostic overlay — the fullscreen button has failed to
+  // properly expand the book on the user's real hardware twice now,
+  // in ways this dev environment cannot reproduce (headless/automated
+  // browsers here either don't reproduce the sizing bug at all, or
+  // refuse to grant Fullscreen to a simulated click outright). Rather
+  // than guess a third time, surface the actual live measurements on
+  // screen so the next real-device screenshot tells us exactly what's
+  // wrong. Safe to delete once the real cause is found.
+  var dbgEl = null;
+  function updateDebugOverlay(){
+    if(!document.fullscreenElement){
+      if(dbgEl) dbgEl.style.display = 'none';
+      return;
+    }
+    if(!dbgEl){
+      dbgEl = document.createElement('div');
+      dbgEl.style.cssText = 'position:fixed;top:8px;left:8px;z-index:99999;'
+        + 'background:rgba(0,0,0,0.82);color:#0f0;font:11px/1.5 monospace;'
+        + 'padding:8px 10px;border-radius:6px;white-space:pre;pointer-events:none;';
+      document.body.appendChild(dbgEl);
+    }
+    var fe = document.fullscreenElement;
+    var canvasEl = bookEl.querySelector('canvas.stf__canvas');
+    dbgEl.style.display = 'block';
+    dbgEl.textContent =
+      'fullscreenElement: ' + fe.tagName + (fe.id ? '#' + fe.id : '') + '\n' +
+      'window (this doc): ' + window.innerWidth + 'x' + window.innerHeight + '\n' +
+      'stage client:      ' + stageEl.clientWidth + 'x' + stageEl.clientHeight + '\n' +
+      'book offset:       ' + bookEl.offsetWidth + 'x' + bookEl.offsetHeight + '\n' +
+      'canvas style:       ' + (canvasEl ? canvasEl.style.width + ' x ' + canvasEl.style.height : 'n/a') + '\n' +
+      'frameElement:       ' + (window.frameElement ? 'present' : 'null (top doc)');
+  }
+  document.addEventListener('fullscreenchange', updateDebugOverlay);
+  document.addEventListener('webkitfullscreenchange', updateDebugOverlay);
 
   // Fallback: hide loader after a timeout even if 'init' event doesn't fire as expected
   setTimeout(function(){
