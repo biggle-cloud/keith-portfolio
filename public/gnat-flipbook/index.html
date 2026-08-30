@@ -41,17 +41,25 @@
   }
   .stage{overflow:hidden;}
   #book{
-    /* Sized in JS (see sizeBook()), not CSS. The page-flip library's
-       "stretch" mode fits the page art's own aspect ratio inside
-       whatever box #book happens to be, centering it with an internal
-       canvas offset when the box's aspect ratio doesn't match -- which
-       silently leaves a blank (transparent) strip inside the canvas,
-       showing the page background straight through it. Rather than
-       fight that, we size #book itself to exactly the book's rendered
-       aspect ratio (see sizeBook()), so the canvas box and the content
-       box are always identical and no such strip can appear. autoSize
-       is turned off below so the library never overwrites this with
-       its own width:100%. */
+    /* The page-flip library only ever sets width:100% on this element
+       itself (see autoSize in its own JS); height is left as "auto",
+       which for a flex item under align-items:center collapses to its
+       (absolutely-positioned, so empty) content height. That leaves the
+       book's own canvas -- a child sized at CSS height:100% -- with no
+       definite height to resolve against, so the library's internal
+       "how much vertical space do I have" measurement doesn't reliably
+       track the stage's real height and can compute a book taller than
+       actually fits on screen. Giving #book an explicit height ties it
+       to the stage's real, current height so that measurement is
+       accurate in the embed, in a resized window, and in fullscreen.
+       (An earlier attempt replaced this with sizing #book itself to the
+       book's exact rendered aspect ratio in JS -- it fixed the
+       letterboxing here but introduced a worse regression, the book
+       rendering larger than the viewport. Reverted; the embed's own
+       aspect-ratio in globals.css is matched to the book's instead, see
+       .full-page.embed-page .plate, which fixes the letterboxing at its
+       actual source without touching this sizing logic at all.) */
+    height:100%;
     box-shadow:0 20px 50px rgba(27,26,23,0.22);
     /* No transition on transform here. The cover-crop centring below
        (updateCoverCrop()) relies on the mask being sized/positioned for
@@ -222,43 +230,6 @@
   var fsBtn = document.getElementById('fsBtn');
 
   var PAGE_W = 1241, PAGE_H = 1754;
-  var SPREAD_ASPECT = (PAGE_W / PAGE_H) * 2; // width:height of a full two-page spread
-  var MAX_SPREAD_W = 1400 * 2; // mirrors the maxWidth setting passed to PageFlip below
-
-  // The page-flip library's "stretch" size mode fits the page art's
-  // aspect ratio inside whatever box #book happens to be -- if that
-  // box's own aspect ratio doesn't match, the leftover space is drawn
-  // as a blank, transparent strip inside the canvas itself (see the
-  // comment on the #book CSS rule above). Rather than let #book be an
-  // arbitrary box (100% of the stage) and rely on the library to
-  // center content inside it, we size #book to exactly the aspect
-  // ratio the book will render at, so there's no leftover space for a
-  // strip to appear in. This also keeps bookEl's own offsetLeft/
-  // offsetWidth (used by updateCoverCrop() below) accurate, since the
-  // book's visible content edge and #book's own DOM edge are now
-  // always the same pixel.
-  function getStageAvail(){
-    var cs = getComputedStyle(stageEl);
-    return {
-      width: stageEl.clientWidth - (parseFloat(cs.paddingLeft) || 0) - (parseFloat(cs.paddingRight) || 0),
-      height: stageEl.clientHeight - (parseFloat(cs.paddingTop) || 0) - (parseFloat(cs.paddingBottom) || 0)
-    };
-  }
-  function sizeBook(){
-    var avail = getStageAvail();
-    var w = avail.width, h = w / SPREAD_ASPECT;
-    if(h > avail.height){
-      h = avail.height;
-      w = h * SPREAD_ASPECT;
-    }
-    if(w > MAX_SPREAD_W){
-      w = MAX_SPREAD_W;
-      h = w / SPREAD_ASPECT;
-    }
-    bookEl.style.width = Math.round(w) + 'px';
-    bookEl.style.height = Math.round(h) + 'px';
-  }
-  sizeBook();
 
   // Retina / HiDPI fix. The underlying page-flip library sizes its
   // internal <canvas> pixel buffer to exactly match the canvas's CSS
@@ -330,7 +301,6 @@
     maxHeight: 1980,
     maxShadowOpacity: 0.5,
     showCover: true,
-    autoSize: false,
     mobileScrollSupport: false,
     useMouseEvents: true,
     swipeDistance: 20,
@@ -461,7 +431,6 @@
   function forceRelayout(){
     clearTimeout(relayoutTimer);
     relayoutTimer = setTimeout(function(){
-      sizeBook();
       try { pageFlip.update(); } catch(e){}
       updateCoverCrop();
     }, 40);
