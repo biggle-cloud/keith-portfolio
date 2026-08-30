@@ -298,12 +298,22 @@
     canvas.height = parseInt(cs.height, 10);
   }
 
+  // maxWidth is a hard ceiling on a single page's rendered width in the
+  // library's "stretch" size mode -- it does not scale with the actual
+  // screen, so on a big enough display (a large external monitor, a
+  // spacious "more space" scaled resolution) the book hits this cap well
+  // before it has filled the available width, leaving plain background
+  // down both sides. 1400 was sized for the small embedded box in the
+  // page; it's the wrong number for fullscreen, which can be far wider.
+  // Raising it well past any real screen's logical width lets the book's
+  // own CSS sizing (#book at 100%/100% of the stage) be the only real
+  // constraint, so it fills whatever space it's actually given.
   var pageFlip = new St.PageFlip(bookEl, {
     width: PAGE_W,
     height: PAGE_H,
     size: 'stretch',
     minWidth: 240,
-    maxWidth: 1400,
+    maxWidth: 4000,
     minHeight: 340,
     maxHeight: 1980,
     maxShadowOpacity: 0.5,
