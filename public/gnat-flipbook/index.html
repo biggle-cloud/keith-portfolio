@@ -41,25 +41,16 @@
   }
   .stage{overflow:hidden;}
   #book{
-    /* The page-flip library only ever sets width:100% on this element
-       itself (see autoSize in its own JS); height is left as "auto",
-       which for a flex item under align-items:center collapses to its
-       (absolutely-positioned, so empty) content height. That leaves the
-       book's own canvas -- a child sized at CSS height:100% -- with no
-       definite height to resolve against, so the library's internal
-       "how much vertical space do I have" measurement doesn't reliably
-       track the stage's real height and can compute a book taller than
-       actually fits on screen. Giving #book an explicit height ties it
-       to the stage's real, current height so that measurement is
-       accurate in the embed, in a resized window, and in fullscreen.
-       (An earlier attempt replaced this with sizing #book itself to the
-       book's exact rendered aspect ratio in JS -- it fixed the
-       letterboxing here but introduced a worse regression, the book
-       rendering larger than the viewport. Reverted; the embed's own
-       aspect-ratio in globals.css is matched to the book's instead, see
-       .full-page.embed-page .plate, which fixes the letterboxing at its
-       actual source without touching this sizing logic at all.) */
-    height:100%;
+    /* Sized in JS (see sizeBook()), not CSS -- a book-shaped page and a
+       widescreen monitor are different shapes, so matching the stage's
+       full height (the old approach) always left the leftover width as
+       blank margin down both sides on a wide screen. sizeBook() instead
+       fills the stage's full WIDTH for content spreads and lets the
+       excess height run past the stage's edges; .stage's overflow:hidden
+       below clips that off evenly, top and bottom, instead of leaving
+       the sides blank. Covers get their own, narrower sizing inside
+       sizeBook() -- see the comment there. autoSize is turned off below
+       so the library never overwrites this with its own width:100%. */
     box-shadow:0 20px 50px rgba(27,26,23,0.22);
     /* No transition on transform here. The cover-crop centring below
        (updateCoverCrop()) relies on the mask being sized/positioned for
@@ -237,6 +228,45 @@
   var fsBtn = document.getElementById('fsBtn');
 
   var PAGE_W = 1241, PAGE_H = 1754;
+  var SPREAD_ASPECT = (PAGE_W / PAGE_H) * 2; // width:height of a full two-page spread
+  var MAX_SPREAD_W = 4000 * 2; // mirrors the maxWidth setting passed to PageFlip below
+
+  // #book's own box, computed here rather than left to CSS. Two
+  // different goals depending on what's currently showing:
+  //  - A content spread (both pages visible) fills the stage's full
+  //    WIDTH; any leftover height is left to run past the stage's own
+  //    edges, where .stage's overflow:hidden (with the flex centring
+  //    already in place) clips it off evenly, top and bottom. That
+  //    trims a little off the top/bottom of the art on a very wide
+  //    screen, but it's what actually removes the blank margins down
+  //    the sides -- matching the stage's height instead (the previous
+  //    approach) leaves exactly that leftover width as blank space,
+  //    which is the "big lump of white" on any screen wider than a
+  //    book-shaped two-page spread (nearly all of them).
+  //  - A front/back cover is only ever HALF of that same landscape
+  //    canvas -- the library always renders a full spread even for one
+  //    page (see updateCoverCrop() below), so filling the stage's width
+  //    the same way would just make the masked blank half enormous
+  //    too. Matching the stage's height instead keeps the whole box --
+  //    mask included -- close to the actual cover photo's own size.
+  function sizeBook(onCover){
+    var cs = getComputedStyle(stageEl);
+    var availW = stageEl.clientWidth - (parseFloat(cs.paddingLeft) || 0) - (parseFloat(cs.paddingRight) || 0);
+    var availH = stageEl.clientHeight - (parseFloat(cs.paddingTop) || 0) - (parseFloat(cs.paddingBottom) || 0);
+    var w, h;
+    if(onCover){
+      h = availH;
+      w = h * SPREAD_ASPECT;
+      if(w > availW){ w = availW; h = w / SPREAD_ASPECT; }
+    } else {
+      w = availW;
+      h = w / SPREAD_ASPECT;
+    }
+    if(w > MAX_SPREAD_W){ w = MAX_SPREAD_W; h = w / SPREAD_ASPECT; }
+    bookEl.style.width = Math.round(w) + 'px';
+    bookEl.style.height = Math.round(h) + 'px';
+  }
+  sizeBook(false);
 
   // Retina / HiDPI fix. The underlying page-flip library sizes its
   // internal <canvas> pixel buffer to exactly match the canvas's CSS
@@ -305,9 +335,9 @@
   // before it has filled the available width, leaving plain background
   // down both sides. 1400 was sized for the small embedded box in the
   // page; it's the wrong number for fullscreen, which can be far wider.
-  // Raising it well past any real screen's logical width lets the book's
-  // own CSS sizing (#book at 100%/100% of the stage) be the only real
-  // constraint, so it fills whatever space it's actually given.
+  // Raising it well past any real screen's logical width lets sizeBook()
+  // above be the only real constraint, so it fills whatever space it's
+  // actually given (MAX_SPREAD_W mirrors this same number).
   var pageFlip = new St.PageFlip(bookEl, {
     width: PAGE_W,
     height: PAGE_H,
@@ -318,6 +348,7 @@
     maxHeight: 1980,
     maxShadowOpacity: 0.5,
     showCover: true,
+    autoSize: false,
     mobileScrollSupport: false,
     useMouseEvents: true,
     swipeDistance: 20,
@@ -390,11 +421,26 @@
     }
   }
 
-  pageFlip.on('flip', function(){ updateUI(); updateCoverCrop(); });
-  pageFlip.on('changeOrientation', function(){ updateCoverCrop(); });
+  // Resizes #book for whatever's now showing, tells the library to
+  // recompute against that new box, then repositions the cover mask
+  // against the fresh numbers. sizeBook()'s two sizing modes (see above)
+  // mean the "is this a cover?" check has to happen before every resize,
+  // not just before the mask math -- so this replaces the old flip/init/
+  // resize handlers calling updateCoverCrop() directly.
+  function relayout(){
+    var cur = pageFlip.getCurrentPageIndex();
+    var total = pageFlip.getPageCount();
+    var onCover = (cur === 0 || cur === total - 1);
+    sizeBook(onCover);
+    try { pageFlip.update(); } catch(e){}
+    updateCoverCrop();
+  }
+
+  pageFlip.on('flip', function(){ updateUI(); relayout(); });
+  pageFlip.on('changeOrientation', function(){ relayout(); });
   pageFlip.on('init', function(){
     updateUI();
-    updateCoverCrop();
+    relayout();
     loadingEl.style.opacity = '0';
     setTimeout(function(){ loadingEl.style.display = 'none'; }, 400);
   });
@@ -447,10 +493,7 @@
   var relayoutTimer = null;
   function forceRelayout(){
     clearTimeout(relayoutTimer);
-    relayoutTimer = setTimeout(function(){
-      try { pageFlip.update(); } catch(e){}
-      updateCoverCrop();
-    }, 40);
+    relayoutTimer = setTimeout(relayout, 40);
   }
   if(window.ResizeObserver){
     new ResizeObserver(forceRelayout).observe(stageEl);
