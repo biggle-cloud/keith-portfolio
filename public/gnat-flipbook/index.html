@@ -82,13 +82,37 @@
     user-select:none;
     -webkit-user-drag:none;
   }
+  /* A cover page is a single portrait page shown inside a box shaped for
+     a two-page landscape spread -- by construction it can only ever fill
+     half that box's width (the library renders it as one half of a full
+     spread canvas, see updateCoverCrop() below), leaving the other half
+     blank. Rather than mask that blank half with a flat colour -- which
+     reads as an empty gap/rendering glitch -- fill the whole stage with
+     a softly blurred, darkened copy of the cover image itself. It only
+     ever becomes visible in that blank space (spreads fill the stage
+     edge-to-edge already), and turns "empty band" into "deliberate
+     backdrop the page floats on". */
+  #backdrop{
+    position:absolute;
+    inset:-30px;
+    background-size:cover;
+    background-position:center;
+    filter:blur(40px) brightness(.55) saturate(1.15);
+    z-index:0;
+    pointer-events:none;
+    opacity:0;
+    transition:opacity .2s ease;
+  }
+  #backdrop.on{opacity:1;}
   .edge-mask{
     position:absolute;
     top:50%;
     transform:translateY(-50%);
     height:0;
     width:0;
-    background:var(--paper);
+    background-size:cover;
+    background-position:center;
+    filter:blur(40px) brightness(.55) saturate(1.15);
     pointer-events:none;
     z-index:2;
     opacity:0;
@@ -192,6 +216,7 @@
     <button class="nav-btn nav-prev" id="prevBtn" aria-label="Previous page">
       <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
     </button>
+    <div id="backdrop"></div>
     <div id="book"></div>
     <div class="edge-mask mask-left" id="maskLeft"></div>
     <div class="edge-mask mask-right" id="maskRight"></div>
@@ -314,6 +339,7 @@
 
   var maskLeft = document.getElementById('maskLeft');
   var maskRight = document.getElementById('maskRight');
+  var backdropEl = document.getElementById('backdrop');
 
   function updateUI(){
     var cur = pageFlip.getCurrentPageIndex();
@@ -326,11 +352,17 @@
 
   // The underlying book library always renders a full two-page-wide
   // spread even when only one page (front/back cover) is showing, which
-  // leaves a blank half. Since that blank half is a permanent fixture of
-  // a single fixed-size canvas (resizing its container would shrink the
-  // page art too), we instead recentre the canvas with a plain CSS shift
-  // and paint over the now off-centre blank half with a mask that matches
-  // the page background, so only the real cover page is visible.
+  // leaves a blank half. That blank half is a permanent fixture of a
+  // single fixed-size canvas (resizing its container would shrink the
+  // page art too, and the visible page can never be wider than half that
+  // canvas -- the library always sizes it as one half of a two-page
+  // spread, cover or not), so we can't make it disappear by resizing.
+  // Instead we recentre the canvas with a plain CSS shift and paint over
+  // the now off-centre blank half with a mask -- and rather than a flat
+  // colour (which just relocates the "blank gap" look), the mask and the
+  // backdrop behind #book are filled with a softly blurred copy of the
+  // cover image itself, so the real page reads as floating on a
+  // deliberate backdrop rather than sitting in an empty band.
   function updateCoverCrop(){
     var cur = pageFlip.getCurrentPageIndex();
     var total = pageFlip.getPageCount();
@@ -342,6 +374,7 @@
     maskRight.classList.remove('on');
     maskLeft.style.width = '0px';
     maskRight.style.width = '0px';
+    backdropEl.classList.remove('on');
 
     if(orientation === 'portrait'){
       bookEl.style.transform = 'translateX(0)';
@@ -354,20 +387,28 @@
     var leftPad = bookEl.offsetLeft;
     var rightPad = stageEl.clientWidth - bookEl.offsetLeft - bookEl.offsetWidth;
 
-    if(cur === 0){
-      // front cover sits in the right half; shift left to centre it,
-      // mask everything left of it (padding gap + the blank half)
-      bookEl.style.transform = 'translateX(-' + (h / 2) + 'px)';
-      maskLeft.style.width = (leftPad + h / 2 + 2) + 'px';
-      maskLeft.style.height = rect.height + 'px';
-      maskLeft.classList.add('on');
-    } else if(cur === total - 1){
-      // back cover sits in the left half; shift right to centre it,
-      // mask everything right of it (padding gap + the blank half)
-      bookEl.style.transform = 'translateX(' + (h / 2) + 'px)';
-      maskRight.style.width = (rightPad + h / 2 + 2) + 'px';
-      maskRight.style.height = rect.height + 'px';
-      maskRight.classList.add('on');
+    if(cur === 0 || cur === total - 1){
+      var bgUrl = 'url(' + pages[cur] + ')';
+      backdropEl.style.backgroundImage = bgUrl;
+      backdropEl.classList.add('on');
+
+      if(cur === 0){
+        // front cover sits in the right half; shift left to centre it,
+        // mask everything left of it (padding gap + the blank half)
+        bookEl.style.transform = 'translateX(-' + (h / 2) + 'px)';
+        maskLeft.style.backgroundImage = bgUrl;
+        maskLeft.style.width = (leftPad + h / 2 + 2) + 'px';
+        maskLeft.style.height = rect.height + 'px';
+        maskLeft.classList.add('on');
+      } else {
+        // back cover sits in the left half; shift right to centre it,
+        // mask everything right of it (padding gap + the blank half)
+        bookEl.style.transform = 'translateX(' + (h / 2) + 'px)';
+        maskRight.style.backgroundImage = bgUrl;
+        maskRight.style.width = (rightPad + h / 2 + 2) + 'px';
+        maskRight.style.height = rect.height + 'px';
+        maskRight.classList.add('on');
+      }
     } else {
       bookEl.style.transform = 'translateX(0)';
     }
