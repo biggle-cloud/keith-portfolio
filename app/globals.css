@@ -220,7 +220,7 @@ h1{
 .full-page{ grid-column: 1 / -1; }
 .full-page .plate{ aspect-ratio: 1/1; }
 .full-page.wide-page .plate{ aspect-ratio: 600/457; }
-.full-page.embed-page .plate{ aspect-ratio: 4/3; padding:0; }
+.full-page.embed-page .plate{ aspect-ratio: 1241/877; padding:0; } /* matches the brochure viewer's own two-page-spread aspect ratio, so its #book fills the box with no top/bottom letterbox */
 @media (max-width:640px){ .full-page.embed-page .plate{ aspect-ratio: 3/4; } }
 .embed-plate iframe{
   width:100%;
