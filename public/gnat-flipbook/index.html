@@ -53,7 +53,15 @@
        is turned off below so the library never overwrites this with
        its own width:100%. */
     box-shadow:0 20px 50px rgba(27,26,23,0.22);
-    transition:transform .25s ease;
+    /* No transition on transform here. The cover-crop centring below
+       (updateCoverCrop()) relies on the mask being sized/positioned for
+       the shift's FINAL resting place the instant it's applied -- with
+       an animated transition, anything that delays a frame (the initial
+       flood of 24 images decoding, a slow device, a backgrounded tab)
+       can catch the canvas still mid-slide while the mask already sits
+       at its settled position, exposing a sliver of the blank half
+       underneath. Applying the shift instantly removes that window
+       entirely rather than just narrowing it. */
   }
   #book .stf__item{
     background:#fff;
