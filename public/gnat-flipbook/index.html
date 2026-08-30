@@ -416,19 +416,51 @@
   // fullscreening arbitrary elements at all, only <video>; feature-detect
   // that and hide the button rather than leave a control that does
   // nothing when tapped.
+  //
+  // If we're embedded in an iframe (same-origin), fullscreen the
+  // <iframe> element itself as the parent page sees it -- the same
+  // mechanism embedded video players use. Fullscreening our own inner
+  // document from inside the iframe is known to be unreliable in
+  // Safari/WebKit for resizing nested content to fill the screen, so
+  // prefer the frame element when we can reach it; fall back to
+  // fullscreening our own document when we're not embedded (or the
+  // frame reference isn't reachable, e.g. truly cross-origin).
+  // Requesting fullscreen on window.frameElement puts the fullscreen
+  // *state* on the PARENT document, not this iframe's own document --
+  // our own document.fullscreenElement stays null the whole time -- so
+  // detecting "are we fullscreen?" and exiting fullscreen both have to
+  // check the parent document too, wherever we can reach it.
+  var parentDoc = null;
+  try {
+    if(window.frameElement && window.parent && window.parent.document){
+      parentDoc = window.parent.document;
+    }
+  } catch(e){ /* cross-origin -- fall back to our own document only */ }
+
+  function getFsDoc(){
+    if(parentDoc && (parentDoc.fullscreenElement || parentDoc.webkitFullscreenElement || parentDoc.webkitCurrentFullScreenElement)){
+      return parentDoc;
+    }
+    if(document.fullscreenElement || document.webkitFullscreenElement || document.webkitCurrentFullScreenElement){
+      return document;
+    }
+    return null;
+  }
   function getFsElement(){
-    return document.fullscreenElement || document.webkitFullscreenElement || document.webkitCurrentFullScreenElement || null;
+    var d = getFsDoc();
+    return d ? (d.fullscreenElement || d.webkitFullscreenElement || d.webkitCurrentFullScreenElement || null) : null;
   }
   var fsSupported = !!(document.fullscreenEnabled || document.webkitFullscreenEnabled);
   if(!fsSupported){
     fsBtn.style.display = 'none';
   } else {
     fsBtn.addEventListener('click', function(){
-      var el = document.documentElement;
       if(!getFsElement()){
-        (el.requestFullscreen || el.webkitRequestFullscreen || function(){}).call(el);
+        var target = window.frameElement || document.documentElement;
+        (target.requestFullscreen || target.webkitRequestFullscreen || function(){}).call(target);
       } else {
-        (document.exitFullscreen || document.webkitExitFullscreen || function(){}).call(document);
+        var fsDoc = getFsDoc() || document;
+        (fsDoc.exitFullscreen || fsDoc.webkitExitFullscreen || function(){}).call(fsDoc);
       }
     });
   }
@@ -462,6 +494,17 @@
   document.addEventListener('webkitfullscreenchange', function(){
     [0, 60, 150, 300, 600].forEach(function(delay){ setTimeout(forceRelayout, delay); });
   });
+  // When fullscreened via window.frameElement, the fullscreenchange event
+  // fires on the PARENT document, not this one -- listen there too
+  // (when reachable) or the relayout above would never run.
+  if(parentDoc){
+    parentDoc.addEventListener('fullscreenchange', function(){
+      [0, 60, 150, 300, 600].forEach(function(delay){ setTimeout(forceRelayout, delay); });
+    });
+    parentDoc.addEventListener('webkitfullscreenchange', function(){
+      [0, 60, 150, 300, 600].forEach(function(delay){ setTimeout(forceRelayout, delay); });
+    });
+  }
 
   // Fallback: hide loader after a timeout even if 'init' event doesn't fire as expected
   setTimeout(function(){
@@ -474,3 +517,4 @@
 </script>
 </body>
 </html>
+
