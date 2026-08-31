@@ -18,7 +18,7 @@
   *{box-sizing:border-box;}
   html,body{
     margin:0;padding:0;height:100%;
-    background:var(--paper);
+    background:var(--paper)
     color:var(--ink);
     font-family:'EB Garamond',Georgia,serif;
     overflow:hidden;
@@ -106,6 +106,27 @@
   .edge-mask.on{opacity:1;}
   .edge-mask.mask-left{left:0;}
   .edge-mask.mask-right{right:0;}
+  /* Same idea as .edge-mask, rotated 90 degrees: the library's aspect-fit
+     centring can leave its gap on the horizontal axis (a wide box,
+     masked above) OR the vertical axis (a tall/narrow box) depending on
+     how the stage's own proportions compare to the brochure's -- never
+     both at once, but which one applies can flip as the embed is
+     resized. */
+  .edge-mask-h{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    width:0;
+    height:0;
+    background:var(--paper);
+    pointer-events:none;
+    z-index:2;
+    opacity:0;
+    transition:opacity .2s ease;
+  }
+  .edge-mask-h.on{opacity:1;}
+  .edge-mask-h.mask-top{top:0;}
+  .edge-mask-h.mask-bottom{bottom:0;}
   .nav-btn{
     position:absolute;
     top:50%;
@@ -204,6 +225,8 @@
     <div id="book"></div>
     <div class="edge-mask mask-left" id="maskLeft"></div>
     <div class="edge-mask mask-right" id="maskRight"></div>
+    <div class="edge-mask-h mask-top" id="maskTop"></div>
+    <div class="edge-mask-h mask-bottom" id="maskBottom"></div>
     <button class="nav-btn nav-next" id="nextBtn" aria-label="Next page">
       <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
     </button>
@@ -333,6 +356,8 @@
 
   var maskLeft = document.getElementById('maskLeft');
   var maskRight = document.getElementById('maskRight');
+  var maskTop = document.getElementById('maskTop');
+  var maskBottom = document.getElementById('maskBottom');
 
   function updateUI(){
     var cur = pageFlip.getCurrentPageIndex();
@@ -361,6 +386,10 @@
     maskRight.classList.remove('on');
     maskLeft.style.width = '0px';
     maskRight.style.width = '0px';
+    maskTop.classList.remove('on');
+    maskBottom.classList.remove('on');
+    maskTop.style.height = '0px';
+    maskBottom.style.height = '0px';
 
     if(orientation === 'portrait'){
       bookEl.style.transform = 'translateX(0)';
@@ -373,22 +402,74 @@
     var leftPad = bookEl.offsetLeft;
     var rightPad = stageEl.clientWidth - bookEl.offsetLeft - bookEl.offsetWidth;
 
+    // The library always stretches its own canvas to fill this whole
+    // box (that's what "stretch" sizing means), then draws the actual
+    // two-page spread centred inside it at whatever size respects the
+    // book's real aspect ratio -- rect.left is the gap that centring
+    // leaves on each side. When the stage's own box happens to be
+    // proportioned close to a landscape A4 spread that gap is ~0 and
+    // invisible; on a wide desktop window (or a big external monitor)
+    // it can be hundreds of pixels, and the library fills it with its
+    // own plain page background rather than ours -- which reads as a
+    // "white" band flanking the book. Masking it with the same flat
+    // colour already used for the cover's blank half fixes that for
+    // every spread, not just the first/last page.
+    var sideGap = Math.max(0, rect.left);
+
     if(cur === 0){
       // front cover sits in the right half; shift left to centre it,
-      // mask everything left of it (padding gap + the blank half)
+      // mask everything left of it (padding gap + side gap + the
+      // blank half), and mask the side gap that's opened up on the
+      // right now that the whole (stretched) canvas has shifted left
+      // along with it.
       bookEl.style.transform = 'translateX(-' + (h / 2) + 'px)';
-      maskLeft.style.width = (leftPad + h / 2 + 2) + 'px';
+      maskLeft.style.width = (leftPad + sideGap + h / 2 + 2) + 'px';
       maskLeft.style.height = rect.height + 'px';
       maskLeft.classList.add('on');
-    } else if(cur === total - 1){
-      // back cover sits in the left half; shift right to centre it,
-      // mask everything right of it (padding gap + the blank half)
-      bookEl.style.transform = 'translateX(' + (h / 2) + 'px)';
-      maskRight.style.width = (rightPad + h / 2 + 2) + 'px';
+      maskRight.style.width = (rightPad + sideGap + h / 2 + 2) + 'px';
       maskRight.style.height = rect.height + 'px';
       maskRight.classList.add('on');
+    } else if(cur === total - 1){
+      // back cover sits in the left half; mirror image of the above.
+      bookEl.style.transform = 'translateX(' + (h / 2) + 'px)';
+      maskRight.style.width = (rightPad + sideGap + h / 2 + 2) + 'px';
+      maskRight.style.height = rect.height + 'px';
+      maskRight.classList.add('on');
+      maskLeft.style.width = (leftPad + sideGap + h / 2 + 2) + 'px';
+      maskLeft.style.height = rect.height + 'px';
+      maskLeft.classList.add('on');
     } else {
       bookEl.style.transform = 'translateX(0)';
+      if(sideGap > 1){
+        maskLeft.style.width = (leftPad + sideGap + 2) + 'px';
+        maskLeft.style.height = rect.height + 'px';
+        maskLeft.classList.add('on');
+        maskRight.style.width = (rightPad + sideGap + 2) + 'px';
+        maskRight.style.height = rect.height + 'px';
+        maskRight.classList.add('on');
+      }
+    }
+
+    // The same aspect-fit centring can open a gap on the OTHER axis
+    // instead, depending on how the stage's current proportions compare
+    // to the brochure's -- a wide stage leaves the side gaps masked
+    // above, a tall/narrow one (e.g. the embed's own box, or the whole
+    // page, made shorter or narrower) leaves this one, top and bottom,
+    // instead. The two never happen at once, but which one applies can
+    // flip as the box is resized, so this always re-checks rather than
+    // assuming the earlier branch already covered it. Independent of the
+    // left/right cover shift above, so it applies the same way whichever
+    // page is showing.
+    var topPad = bookEl.offsetTop;
+    var bottomPad = stageEl.clientHeight - bookEl.offsetTop - bookEl.offsetHeight;
+    var vGap = Math.max(0, rect.top);
+    if(vGap > 1){
+      maskTop.style.height = (topPad + vGap + 2) + 'px';
+      maskTop.style.width = '100%';
+      maskTop.classList.add('on');
+      maskBottom.style.height = (bottomPad + vGap + 2) + 'px';
+      maskBottom.style.width = '100%';
+      maskBottom.classList.add('on');
     }
   }
 
