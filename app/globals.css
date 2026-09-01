@@ -222,6 +222,8 @@ h1{
 .full-page.wide-page .plate{ aspect-ratio: 600/457; }
 .full-page.embed-page .plate{ aspect-ratio: 1241/877; padding:0; } /* matches the brochure viewer's own two-page-spread aspect ratio, so its #book fills the box with no top/bottom letterbox */
 @media (max-width:640px){ .full-page.embed-page .plate{ aspect-ratio: 3/4; } }
+   .full-page.embed-page-wide .plate{ aspect-ratio: 2480/878; padding:0; } /* matches the Seaton Carew flipbook's whole-spread aspect ratio (two half-pages side by side), so its #book fills the box with no side letterbox */
+   @media (max-width:640px){ .full-page.embed-page-wide .plate{ aspect-ratio: 3/4; } }
 .embed-plate iframe{
   width:100%;
   height:100%;
