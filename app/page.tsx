@@ -167,7 +167,7 @@ type DesignPlate = {
   alt: string;
   client: string;
   tag: string;
- variant: "spread" | "a4" | "full" | "wide" | "embed";
+ variant: "spread" | "a4" | "full" | "wide" | "embed" | "embed-wide";
   embedSrc?: string;
 };
 
@@ -227,6 +227,14 @@ const designPlates: DesignPlate[] = [
     client: "Seaton Carew Golf Club",
     tag: "Corporate Membership Pack — Advice from Beyond the Grave on Corporate Golf, Peacock’s Tongues and the Proper Treatment of an Impudent Caddy",
     variant: "full",
+  },
+  {
+    src: null,
+    alt: "Seaton Carew Golf Club membership invitation, interactive page-flip edition, all 14 spreads",
+    client: "Seaton Carew Golf Club",
+    tag: "The same pack, turned into something you can actually leaf through — testimonial from the late Dr McCuaig included.",
+    variant: "embed-wide",
+    embedSrc: "/seaton-carew-flipbook/index.html",
   },
   {
     src: "/images/Old-Casper-Client-now-elsewhere.jpg",
@@ -350,6 +358,8 @@ export default function Home() {
                className={
   p.variant === "embed"
     ? "full-page embed-page"
+    : p.variant === "embed-wide"
+    ? "full-page embed-page-wide"
     : p.variant === "full"
     ? "full-page"
     : p.variant === "wide"
@@ -360,7 +370,7 @@ export default function Home() {
 }
                 key={i}
               >
-                {p.variant === "embed" ? (
+                {p.variant === "embed" || p.variant === "embed-wide" ? (
                   <div className="plate filled embed-plate">
                     <iframe
                       src={p.embedSrc}
