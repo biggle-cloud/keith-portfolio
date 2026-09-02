@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -54,9 +53,11 @@
     align-items:center;
     justify-content:center;
     position:relative;
-    /* Side gutters track --nav-size so they always exactly clear the
-       (now height-responsive) buttons, at any box shape. */
-    padding:16px calc(var(--nav-size) + 20px);
+    /* The book itself gets almost the full width -- the nav buttons
+       are translucent floating controls (see .nav-btn) rather than
+       sitting in a reserved gutter, so this padding is just a small
+       cosmetic inset, not clearance space for the buttons. */
+    padding:16px 8px;
   }
   .stage{overflow:hidden;}
   #book{
@@ -149,19 +150,35 @@
     transform:translateY(-50%);
     width:var(--nav-size);height:var(--nav-size);
     border-radius:50%;
-    border:1px solid var(--plate-line);
-    background:var(--paper-2);
+    border:1px solid rgba(183,174,149,0.65);
+    /* Translucent + shadowed rather than a solid fill: on this book
+       every spread's artwork runs edge to edge (see the corner
+       flourishes on the cover, the dark panel text on other spreads),
+       so there is no fixed gutter width that stays clear of content on
+       all 14 pages at every box shape -- a solid button always ends up
+       looking like it's covering something on some spread. A
+       see-through button with its own shadow reads as an intentional
+       floating control over the artwork instead (the same idea as this
+       site's own .lightbox-arrow), so sitting partly over a spread is
+       expected rather than looking broken. */
+    background:rgba(234,228,213,0.72);
+    -webkit-backdrop-filter:blur(3px);
+    backdrop-filter:blur(3px);
+    box-shadow:0 1px 5px rgba(27,26,23,0.28);
     color:var(--ink-soft);
     display:flex;align-items:center;justify-content:center;
     cursor:pointer;
     transition:background .15s ease, color .15s ease, transform .15s ease;
     z-index:5;
   }
-  .nav-btn:hover{background:#fff;color:var(--rubric);}
+  .nav-btn:hover{background:rgba(255,255,255,0.92);color:var(--rubric);}
   .nav-btn:active{transform:translateY(-50%) scale(0.94);}
   .nav-btn svg{width:calc(var(--nav-size) * 0.43);height:calc(var(--nav-size) * 0.43);fill:none;stroke:currentColor;stroke-width:2.4;}
-  .nav-prev{left:calc(var(--nav-size) * 0.33);}
-  .nav-next{right:calc(var(--nav-size) * 0.33);}
+  /* Buttons sit just inside the true edge rather than in a reserved
+     gutter -- see the .nav-btn comment above for why a gutter can't
+     work here. */
+  .nav-prev{left:8px;}
+  .nav-next{right:8px;}
   .nav-btn[disabled]{opacity:0.3;cursor:default;}
   footer{
     flex:0 0 auto;
@@ -223,10 +240,7 @@
   }
   @keyframes spin{to{transform:rotate(360deg);}}
   @media (max-width:640px){
-    /* Button size/gutter are handled by --nav-size (vh-based) above at
-       every width now, so only the vertical padding and the hint text
-       still need a narrow-screen override here. */
-    .stage{padding:10px calc(var(--nav-size) + 20px);}
+    .stage{padding:10px 8px;}
     .hint{display:none;}
   }
 </style>
