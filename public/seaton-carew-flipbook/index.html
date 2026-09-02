@@ -80,6 +80,18 @@
        .full-page.embed-page .plate, which fixes the letterboxing at its
        actual source without touching this sizing logic at all.) */
     height:100%;
+    /* The page-flip library writes an inline min-width/min-height onto this
+       element from its minWidth/minHeight settings (minWidth * 2 = 400px wide,
+       140px tall here). In the small embedded box on a phone the stage is only
+       ~50-90px tall, so that floor forces #book taller (and wider) than the
+       stage and the overflow is clipped by .stage's overflow:hidden -- the book
+       then shows as a horizontal sliver with its top and bottom cut off. The
+       library only uses the numeric settings for its own maths, never reads
+       these DOM values back, so overriding the inline floor away lets #book
+       track the stage's real size and the "stretch" sizing fit the whole
+       spread. !important is needed to beat the library's inline style. */
+    min-width:0!important;
+    min-height:0!important;
     box-shadow:0 20px 50px rgba(27,26,23,0.22);
     /* No transition on transform here. The cover-crop centring below
        (updateMasks()) relies on the mask being sized/positioned for

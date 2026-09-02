@@ -223,19 +223,15 @@ h1{
 .full-page.embed-page .plate{ aspect-ratio: 1241/877; padding:0; } /* matches the brochure viewer's own two-page-spread aspect ratio, so its #book fills the box with no top/bottom letterbox */
 @media (max-width:640px){ .full-page.embed-page .plate{ aspect-ratio: 3/4; } }
 .full-page.embed-page-wide .plate{ aspect-ratio: 2480/878; padding:0; } /* matches the Seaton Carew flipbook's whole-spread aspect ratio (two half-pages side by side), so its #book fills the box with no side letterbox */
-/* No mobile override here (unlike .embed-page above): every page in this book is
-   one half of an original spread re-paired so the library always shows a whole
-   spread at once, and usePortrait is turned off in the flipbook's own script for
-   exactly that reason -- the book can never reflow to a taller/narrower shape.
-   Forcing the box into a portrait 3/4 ratio on small screens (as previously
-   happened here) left the book's own "stretch" sizing scaling it down to a
-   narrower width than the box, and the fixed-position nav buttons -- anchored to
-   the box's real edges -- then sat on top of the book's actual (narrower) edge
-   pixels instead of the blank space around it, looking like the spread itself was
-   cropped on small screens. Keeping the box at the book's own wide ratio at every
-   width means it always fills edge-to-edge with no letterbox, so the buttons land
-   in the right place and nothing is cropped -- it just renders smaller on a narrow
-   phone, which the fullscreen button is there to fix. */
+/* Mobile override: at the book's own ~2.82:1 spread ratio the box is only
+   ~110px tall on a phone -- once the flipbook's own footer bar (~60px, fixed)
+   is taken out there is almost no room left for the book, and it was rendering
+   clipped to a sliver (fixed in the viewer's own CSS too, see #book min-width/
+   min-height there). A 3/2 box gives the wide spread room to sit whole with the
+   footer below it; the spare height above and below is painted as paper by the
+   viewer's own edge masks, and the nav buttons -- now sized off the stage
+   height inside the iframe -- stay beside the spread rather than on it. */
+@media (max-width:640px){ .full-page.embed-page-wide .plate{ aspect-ratio: 3/2; } }
 .embed-plate iframe{
   width:100%;
   height:100%;
