@@ -19,6 +19,8 @@ const photoPlates: Plate[] = [
     src: "/images/edition-01.jpg",
     alt: "Still life of a vintage Peugeot coffee grinder, moka pot and scattered coffee beans",
     variant: "feature",
+    description:
+      "A veteran French grinder posed here with a moka pot it had never actually worked alongside, the two introduced only by good lighting and a shared talent for looking older than they are. The beans were scattered with far more care than anyone drinking the coffee would ever notice.",
   },
   {
     num: "02",
@@ -26,6 +28,8 @@ const photoPlates: Plate[] = [
     src: "/images/HotHotHot.jpg",
     alt: "Still life of three red chillies on dark slate",
     variant: "feature",
+    description:
+      "Three chillies laid out on slate with the sort of theatrical lighting normally reserved for oil paintings of dead pheasants. All the drama, none of the heat.",
   },
   {
     num: "03",
@@ -33,6 +37,8 @@ const photoPlates: Plate[] = [
     src: "/images/MensClub-SanarySurMer.jpg",
     alt: "Faded 'Men's Club' shop signage beside a weathered doorway in Sanary-sur-Mer",
     variant: "feature",
+    description:
+      "Whatever went on behind that door finished some time ago, leaving only the sign and a lock that still looks capable of keeping a secret. The paint gave up on the place decades before the institution did.",
   },
   {
     num: "04",
@@ -40,6 +46,8 @@ const photoPlates: Plate[] = [
     src: "/images/Voiture-Renault.jpg",
     alt: "Faded Renault garage signage on a weathered Provençal building",
     variant: "feature",
+    description:
+      "A garage that once serviced Renaults, and presumably whatever \"motocultures\" are, now serviced only by the weather. The lettering has outlasted the business by a considerable margin — more than most branding manages.",
   },
   {
     num: "05",
@@ -47,6 +55,8 @@ const photoPlates: Plate[] = [
     src: "/images/LAtelierCafe.jpg",
     alt: "Café tables and chairs beneath hand-painted signage, Provence",
     variant: "feature",
+    description:
+      "Two chairs and a table laid out with the quiet confidence of a place expecting company any minute now. The hand-lettered sign promises tea and gifts; the empty seats promise nothing but a very pleasant wait.",
   },
   {
     num: "06",
@@ -54,6 +64,8 @@ const photoPlates: Plate[] = [
     src: "/images/MaisonJoyeux-2.jpg",
     alt: "Shuttered shopfront of the former Maison Joyeux, Provence",
     variant: "feature",
+    description:
+      "An umbrella shop that spent decades betting against the local weather, and finally lost. \"Joyeux\" remains, gamely, on the sign.",
   },
   {
     num: "07",
@@ -61,6 +73,8 @@ const photoPlates: Plate[] = [
     src: "/images/CafedelaPlace.jpg",
     alt: "Potted palm against a weathered wall beneath the Café de la Place sign",
     variant: "feature",
+    description:
+      "\"Snack Bar,\" helpfully appended in English underneath the French, for anyone still confused by \"Café.\" Both languages have faded at exactly the same rate.",
   },
   {
     num: "08",
@@ -68,6 +82,8 @@ const photoPlates: Plate[] = [
     src: "/images/edition-08.jpg",
     alt: "Still life of garlic bulbs and a vintage radio on a 1941 French newspaper, La Dépêche, with wartime headlines",
     variant: "feature",
+    description:
+      "A 1941 copy of La Dépêche, several bulbs of garlic and a radio that once broadcast rather more alarming news than any of them care to repeat now. History arranged as a still life, which is generally the safest way to handle it.",
   },
   {
     num: "09",
@@ -75,6 +91,8 @@ const photoPlates: Plate[] = [
     src: "/images/Clove-Actually.jpg",
     alt: "Still life of a garlic bulb split open on dark slate, revealing red-skinned cloves",
     variant: "feature",
+    description:
+      "A single bulb opened up to reveal the cloves inside, going about their business in formation. No further comment seemed necessary, though the pun apparently was.",
   },
 ];
 
@@ -167,7 +185,7 @@ type DesignPlate = {
   alt: string;
   client: string;
   tag: string;
- variant: "spread" | "a4" | "full" | "wide" | "embed" | "embed-wide";
+  variant: "spread" | "a4" | "full" | "wide" | "embed" | "embed-wide";
   embedSrc?: string;
 };
 
@@ -355,19 +373,19 @@ export default function Home() {
           <div className="design-grid">
             {designPlates.map((p, i) => (
               <div
-               className={
-  p.variant === "embed"
-    ? "full-page embed-page"
-    : p.variant === "embed-wide"
-    ? "full-page embed-page-wide"
-    : p.variant === "full"
-    ? "full-page"
-    : p.variant === "wide"
-    ? "full-page wide-page"
-    : p.variant === "spread"
-    ? "spread-page"
-    : "a4-page"
-}
+                className={
+                  p.variant === "embed"
+                    ? "full-page embed-page"
+                    : p.variant === "embed-wide"
+                    ? "full-page embed-page-wide"
+                    : p.variant === "full"
+                    ? "full-page"
+                    : p.variant === "wide"
+                    ? "full-page wide-page"
+                    : p.variant === "spread"
+                    ? "spread-page"
+                    : "a4-page"
+                }
                 key={i}
               >
                 {p.variant === "embed" || p.variant === "embed-wide" ? (
@@ -396,12 +414,12 @@ export default function Home() {
                         width={2500}
                         height={1768}
                         sizes={
-  p.variant === "full" || p.variant === "wide"
-    ? "100vw"
-    : p.variant === "spread"
-    ? "(max-width: 640px) 100vw, 480px"
-    : "(max-width: 640px) 50vw, 230px"
-}
+                          p.variant === "full" || p.variant === "wide"
+                            ? "100vw"
+                            : p.variant === "spread"
+                            ? "(max-width: 640px) 100vw, 480px"
+                            : "(max-width: 640px) 50vw, 230px"
+                        }
                         priority={i === 0}
                       />
                     )}
