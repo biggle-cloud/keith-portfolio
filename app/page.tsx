@@ -78,12 +78,12 @@ const photoPlates: Plate[] = [
   },
   {
     num: "08",
-    title: "Germany not so sure",
+    title: "Axis of Allium",
     src: "/images/edition-08.jpg",
     alt: "Still life of garlic bulbs and a vintage radio on a 1941 French newspaper, La Dépêche, with wartime headlines",
     variant: "feature",
     description:
-      "A 1941 copy of La Dépêche, several bulbs of garlic and a radio that once broadcast rather more alarming news than any of them care to repeat now. History arranged as a still life, which is generally the safest way to handle it.",
+      "A 1941 newspaper mid-headline about the Luftwaffe, a radio that once carried the news live, and enough garlic to repel most known threats, ancient or otherwise. Only one of the three has held up.",
   },
   {
     num: "09",
