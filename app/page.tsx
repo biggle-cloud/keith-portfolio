@@ -83,7 +83,7 @@ const photoPlates: Plate[] = [
     alt: "Still life of garlic bulbs and a vintage radio on a 1941 French newspaper, La Dépêche, with wartime headlines",
     variant: "feature",
     description:
-      "A 1941 newspaper mid-headline about the Luftwaffe, a radio that once carried the news live, and enough garlic to repel most known threats, ancient or otherwise. Only one of the three has held up.",
+      "A 1941 newspaper mid-headline about the Luftwaffe, a radio that once carried the news live, and enough garlic to repel most known threats, ancient or otherwise. The garlic's still on the menu; everything else here retired decades ago.",
   },
   {
     num: "09",
