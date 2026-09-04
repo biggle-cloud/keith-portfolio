@@ -326,11 +326,24 @@ footer{
 }
 .lightbox-body img{
   max-width:100%;
-  max-height:78vh;
-  max-height:78dvh; /* see the dvh note on .lightbox-body above */
+  /* 78vh/dvh alone left only ~7% of the box's own 85vh/dvh budget for the
+     caption and description below -- rarely enough once a description
+     wraps to two or three lines, so the text overflowed the scrollable
+     box and, since that's a subtle 6px scrollbar most people never
+     notice, it read as flatly cropped rather than "scroll for more".
+     Subtracting a fixed 130px (comfortably more than a caption + a
+     multi-line description ever needs, at any screen size) guarantees
+     that room regardless of viewport height, rather than a percentage
+     that happens to be too tight; min() keeps the previous 78dvh as a
+     ceiling too, so the image still can't dominate a very tall window.
+     flex-shrink was 0, which forced the image to hold this height even
+     when the box had less room than that -- now it can shrink first,
+     which is what should give way before text gets cut off. */
+  max-height:min(78vh, calc(85vh - 130px));
+  max-height:min(78dvh, calc(85dvh - 130px));
   object-fit:contain;
   border:1px solid rgba(255,255,255,0.15);
-  flex-shrink:0;
+  flex-shrink:1;
 }
 .lightbox-caption{
   color:var(--paper);
