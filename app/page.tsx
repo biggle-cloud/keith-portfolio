@@ -373,8 +373,8 @@ export default function Home() {
         <section className="hero" id="introduction">
           <p className="eyebrow rubric-font">An archive, not a shopfront</p>
           <h1>
-            Trained properly at Central School of Art in the 1970s, and never
-            quite recovered.
+            Trained properly at Central School of Art, London, in the 1970s, and
+            never quite recovered.
           </h1>
           <p className="sub">
             Forty-odd years of design done on other people&rsquo;s terms,
