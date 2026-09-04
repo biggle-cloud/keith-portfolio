@@ -178,6 +178,33 @@ const histamaticPlates: Plate[] = [
     description:
       "A pole-top arrangement of wires, insulators and determined optimism, set against a sky blue enough to make rural infrastructure look heroic. It has presumably delivered electricity for years without feeling any need to explain how.",
   },
+  {
+    num: "10",
+    title: "Ils ne passeront pas",
+    src: "/images/histamatic-10.jpg",
+    alt: "Weathered iron lock plate and bolt latch on an old wooden French door",
+    variant: "square",
+    description:
+      "A lock plate that has clearly seen off more than one siege, held to the door by rust, faith and the odd surviving screw. The keyhole still works, the bolt still slides, and between them they continue to deter absolutely nobody. Verdun this isn't, but the sentiment carries.",
+  },
+  {
+    num: "11",
+    title: "Full Stop, Antibes",
+    src: "/images/histamatic-11.jpg",
+    alt: "Peeling teal paint on an old door in Antibes, with a red drawing pin and a patch of bare wood",
+    variant: "square",
+    description:
+      "Several decades of green have flaked their way down to bare wood in the corner, while a single red drawing pin stands in for punctuation, incidental hardware and colour theory all at once. Whoever put it there may not have been thinking about the complementary wheel, but the wall clearly approves.",
+  },
+  {
+    num: "12",
+    title: "Weighed in the Balance",
+    src: "/images/histamatic-12.jpg",
+    alt: "Vintage red grocer's scales with potatoes and carrots, on a wooden crate above a 1939 newspaper headlined 'Germany Not So Sure'",
+    variant: "square",
+    description:
+      "A set of red grocer's scales holding court over the week's potatoes and carrots, with a 1939 newspaper tucked beneath assuring its readers that Germany's nerve was already cracking. Of the two instruments on show, only one turned out to be a reliable judge of weight.",
+  },
 ];
 
 type DesignPlate = {
