@@ -57,8 +57,9 @@ export default function Home() {
           <p className="section-intro">
             The bit that paid for the cameras. Four decades of briefs,
             deadlines and other people&rsquo;s opinions — a surprising
-            number of which turned out rather well. Still in use, largely
-            as designed — a rarer outcome than you&rsquo;d think.
+            number of which turned out rather well. Most still in use,
+            largely as designed — a batting average most consultants
+            would kill for.
           </p>
           <div className="design-grid">
             {designHighlights.map((p, i) => (
