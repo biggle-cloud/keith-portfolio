@@ -100,7 +100,7 @@ export default function Home() {
             <span className="section-note rubric-font">35mm plates &amp; Histamatics</span>
           </div>
           <p className="section-intro">
-            Miscellany, mostly. Coffee grinders, chillies and garlic lit
+            Self-indulgent miscellany, mostly. Coffee grinders, chillies and garlic lit
             with more care than they&rsquo;ll ever get again; Provençal
             shopfronts left to flake with no such fussing at all; and phone
             snapshots posted without much shame either way.
