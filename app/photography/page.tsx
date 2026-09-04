@@ -73,7 +73,8 @@ export default function PhotographyPage() {
             subside with no such fussing at all. Same subject, really —
             decay — just one version staged under studio lights and the
             other one decades into the job unsupervised. Nothing here has
-            been restored, and nothing here is angling to be.
+            been restored, nothing here is angling to be, and no apologies
+            are forthcoming.
           </p>
           <div className="plates">
             {photoPlates.map((p, i) => (
