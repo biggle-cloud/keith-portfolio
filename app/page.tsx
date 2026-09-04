@@ -91,7 +91,7 @@ export default function Home() {
             ))}
           </div>
           <p style={{ marginTop: 28 }}>
-            <Link href="/design">View all design work →</Link>
+            <Link href="/design">View more design work →</Link>
           </p>
         </section>
         <section className="section" id="photography">
