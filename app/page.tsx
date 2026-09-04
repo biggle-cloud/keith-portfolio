@@ -129,12 +129,13 @@ export default function Home() {
         <div className="colophon" id="contact">
           <div className="colophon-row">
             <span className="cf-label">Enquiries</span>
-            This site replaces one with a shop attached. It sold limited
-            prints and cards, reasonably well — a pleasant sideline to the
-            work that actually mattered. I keep busy enough as it is.
+            This site replaces one with a shop attached, which sold
+            prints and cards, reasonably well. I&rsquo;ve since retired
+            from retail — forty years of client work was enough admin
+            without adding parcel tape and refund requests to the pile.
             <br /><br />
             But if you&rsquo;ve got a problem good design can actually
-            resolve, that&rsquo;s a different matter.
+            resolve, that&rsquo;s a different matter. I can be persuaded.
           </div>
           <div className="colophon-row">
             <span className="cf-label">Contact</span>
