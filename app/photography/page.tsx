@@ -67,7 +67,7 @@ export default function PhotographyPage() {
             <span className="section-note rubric-font">35mm plates</span>
           </div>
           <p className="section-intro">
-            Miscellany, mostly. Indoors: coffee grinders, chillies and
+            Self-indulgent miscellany, mostly. Indoors: coffee grinders, chillies and
             garlic, lit and arranged with more care than they&rsquo;ll ever
             get again. Outdoors: Provençal shopfronts left to flake and
             subside with no such fussing at all. Same subject, really —
