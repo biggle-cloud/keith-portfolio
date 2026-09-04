@@ -296,7 +296,18 @@ footer{
 }
 .lightbox-body{
   max-width:min(90vw, 1100px);
+  /* vh is the browser's LARGEST possible viewport on mobile Safari/Chrome --
+     it does not shrink for the address bar and toolbar that are actually on
+     screen outside of an installed/fullscreen view. That made this box (and
+     the image max-height below) taller than what was really visible, so the
+     top of the image or the caption underneath it sat off-screen with no way
+     to scroll to it -- exactly what disappeared once fullscreen hid that
+     chrome and vh briefly matched the real viewport. dvh tracks the
+     viewport that's actually visible right now, toolbar included; kept as a
+     second declaration so browsers without dvh support still get the vh
+     fallback above instead of no rule at all. */
   max-height:85vh;
+  max-height:85dvh;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -316,6 +327,7 @@ footer{
 .lightbox-body img{
   max-width:100%;
   max-height:78vh;
+  max-height:78dvh; /* see the dvh note on .lightbox-body above */
   object-fit:contain;
   border:1px solid rgba(255,255,255,0.15);
   flex-shrink:0;
