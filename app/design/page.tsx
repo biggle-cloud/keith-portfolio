@@ -69,8 +69,7 @@ export default function DesignPage() {
             The bit that paid for the cameras. Four decades of briefs,
             deadlines and other people&rsquo;s opinions — a surprising
             number of which turned out rather well. Industry, museums and
-            exhibitions over the years, with rather a lot of demolition
-            contractors more recently. Unlike the photographs, none of it
+            exhibitions over the years. Unlike the photographs, none of it
             was made to please me — and somehow that&rsquo;s the discipline
             that&rsquo;s lasted better. Still in use, largely as designed,
             which is a rarer outcome than you&rsquo;d think. There&rsquo;s
