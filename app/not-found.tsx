@@ -20,8 +20,8 @@ export default function NotFound() {
           <span className="sur">— photography &amp; design</span>
         </div>
         <nav className="rubric-font">
-          <Link href="/#design">Design work</Link>
-          <Link href="/#photography">Photography</Link>
+          <Link href="/design">Design work</Link>
+          <Link href="/photography">Photography</Link>
           <Link href="/#contact">Contact</Link>
         </nav>
       </header>
@@ -30,10 +30,10 @@ export default function NotFound() {
         <Link href="/" className="index-item">
           <span className="index-num">01</span>Introduction
         </Link>
-        <Link href="/#design" className="index-item">
+        <Link href="/design" className="index-item">
           <span className="index-num">02</span>Design work
         </Link>
-        <Link href="/#photography" className="index-item">
+        <Link href="/photography" className="index-item">
           <span className="index-num">03</span>Photography
         </Link>
         <span className="index-item active">
