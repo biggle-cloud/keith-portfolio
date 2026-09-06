@@ -250,16 +250,16 @@ export const designPlates: DesignPlate[] = [
   },
   {
     src: "/images/cook-catalogue-01.jpg",
-    alt: "Whitby in the Time of Cook, exhibition catalogue pages",
+    alt: "Whitby in the Time of Cook, exhibition panel",
     client: "Captain Cook Memorial Museum",
-    tag: "exhibition catalogue, selected pages",
+    tag: "exhibition panel, selected panel",
     variant: "spread",
   },
   {
     src: "/images/cook-catalogue-02.jpg",
-    alt: "Natural History section, Cook Museum catalogue",
+    alt: "Natural History section, Cook Museum exhibition panel",
     client: "Captain Cook Memorial Museum",
-    tag: "exhibition catalogue, natural history spread",
+    tag: "exhibition panel, natural history panel",
     variant: "spread",
   },
   {
