@@ -3,7 +3,7 @@ import Link from "next/link";
 import { photoPlates, designPlates } from "./data";
 
 export default function Home() {
-  const designHighlights = designPlates.filter((p) => p.src).slice(0, 4);
+  const designHighlights = designPlates.filter((p) => p.src).slice(-4);
   const photoHighlights = photoPlates.filter((p) => p.src).slice(0, 3);
 
   return (
@@ -57,9 +57,8 @@ export default function Home() {
           <p className="section-intro">
             The bit that paid for the cameras. Four decades of briefs,
             deadlines and other people&rsquo;s opinions — a surprising
-            number of which turned out rather well. Most still in use,
-            largely as designed — a batting average most consultants
-            would kill for.
+            number of which turned out rather well. Still in use, largely
+            as designed — a rarer outcome than you&rsquo;d think.
           </p>
           <div className="design-grid">
             {designHighlights.map((p, i) => (
@@ -129,13 +128,12 @@ export default function Home() {
         <div className="colophon" id="contact">
           <div className="colophon-row">
             <span className="cf-label">Enquiries</span>
-            This site replaces one with a shop attached, which sold
-            prints and cards, reasonably well. I&rsquo;ve since retired
-            from retail — forty years of client work was enough admin
-            without adding parcel tape and refund requests to the pile.
+            This site replaces one with a shop attached. It sold limited
+            prints and cards, reasonably well — a pleasant sideline to the
+            work that actually mattered. I keep busy enough as it is.
             <br /><br />
             But if you&rsquo;ve got a problem good design can actually
-            resolve, that&rsquo;s a different matter. I can be persuaded.
+            resolve, that&rsquo;s a different matter.
           </div>
           <div className="colophon-row">
             <span className="cf-label">Contact</span>
