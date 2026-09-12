@@ -19,21 +19,21 @@ export const photoPlates: Plate[] = [
   },
   {
     num: "02",
-    title: "Chili Passion",
-    src: "/images/HotHotHot.jpg",
-    alt: "Still life of three red chillies on dark slate",
-    variant: "feature",
-    description:
-      "Three chillies laid out on slate with the sort of theatrical lighting normally reserved for oil paintings of dead pheasants. All the drama, none of the heat.",
-  },
-  {
-    num: "03",
     title: "Men's Club, Sanary-sur-Mer",
     src: "/images/MensClub-SanarySurMer.jpg",
     alt: "Faded 'Men's Club' shop signage beside a weathered doorway in Sanary-sur-Mer",
     variant: "feature",
     description:
       "Whatever went on behind that door finished some time ago, leaving only the sign and a lock that still looks capable of keeping a secret. The paint gave up on the place decades before the institution did.",
+  },
+  {
+    num: "03",
+    title: "Chili Passion",
+    src: "/images/HotHotHot.jpg",
+    alt: "Still life of three red chillies on dark slate",
+    variant: "feature",
+    description:
+      "Three chillies laid out on slate with the sort of theatrical lighting normally reserved for oil paintings of dead pheasants. All the drama, none of the heat.",
   },
   {
     num: "04",
