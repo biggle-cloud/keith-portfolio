@@ -46,15 +46,6 @@ export const photoPlates: Plate[] = [
   },
   {
     num: "05",
-    title: "L'Atelier Café, Chez Catherine",
-    src: "/images/LAtelierCafe.jpg",
-    alt: "Café tables and chairs beneath hand-painted signage, Provence",
-    variant: "feature",
-    description:
-      "Two chairs and a table laid out with the quiet confidence of a place expecting company any minute now. The hand-lettered sign promises tea and gifts; the empty seats promise nothing but a very pleasant wait.",
-  },
-  {
-    num: "06",
     title: "Maison Joyeux",
     src: "/images/MaisonJoyeux-2.jpg",
     alt: "Shuttered shopfront of the former Maison Joyeux, Provence",
@@ -63,22 +54,31 @@ export const photoPlates: Plate[] = [
       "An umbrella shop that spent decades betting against the local weather, and finally lost. \"Joyeux\" remains, gamely, on the sign.",
   },
   {
-    num: "07",
-    title: "Café de la Place",
-    src: "/images/CafedelaPlace.jpg",
-    alt: "Potted palm against a weathered wall beneath the Café de la Place sign",
+    num: "06",
+    title: "L'Atelier Café, Chez Catherine",
+    src: "/images/LAtelierCafe.jpg",
+    alt: "Café tables and chairs beneath hand-painted signage, Provence",
     variant: "feature",
     description:
-      "\"Snack Bar,\" helpfully appended in English underneath the French, for anyone still confused by \"Café.\" Both languages have faded at exactly the same rate.",
+      "Two chairs and a table laid out with the quiet confidence of a place expecting company any minute now. The hand-lettered sign promises tea and gifts; the empty seats promise nothing but a very pleasant wait.",
   },
   {
-    num: "08",
+    num: "07",
     title: "Axis of Allium",
     src: "/images/edition-08.jpg",
     alt: "Still life of garlic bulbs and a vintage radio on a 1941 French newspaper, La Dépêche, with wartime headlines",
     variant: "feature",
     description:
       "A 1941 newspaper mid-headline about the Luftwaffe, a radio that once carried the news live, and enough garlic to repel most known threats, ancient or otherwise. The garlic's still on the menu; everything else here retired decades ago.",
+  },
+  {
+    num: "08",
+    title: "Café de la Place",
+    src: "/images/CafedelaPlace.jpg",
+    alt: "Potted palm against a weathered wall beneath the Café de la Place sign",
+    variant: "feature",
+    description:
+      "\"Snack Bar,\" helpfully appended in English underneath the French, for anyone still confused by \"Café.\" Both languages have faded at exactly the same rate.",
   },
   {
     num: "09",
