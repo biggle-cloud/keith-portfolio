@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Smoking Coasts and Ice-bound Seas: Cook's Voyage to the Arctic. Exhibition catalogue for the Captain Cook Memorial Museum, Whitby, 2008. Designed by Keith Hodgson.">
+<meta name="robots" content="noindex">
+<title>Smoking Coasts and Ice-bound Seas · Keith Hodgson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;1,400&family=Work+Sans:wght@400;500&display=swap">
+<style>
+/* Layout: a museum reading table — slim title bar, the open book centred on the table, transport controls beneath. */
+:root {
+  --table: #e4e1db;      /* light stone backdrop */
+  --table-2: #d8d4cc;
+  --ink: #2b2522;
+  --muted: #6f655e;
+  --paper: #fbfaf7;
+  --accent: #8a1f35;     /* the catalogue's claret band */
+  --line: rgba(43,37,34,.14);
+  --shadow: rgba(30,20,15,.28);
+  --chip: rgba(255,255,255,.6);
+  --f-display: "Spectral", "Joanna MT", Georgia, serif;
+  --f-ui: "Work Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --table: #1d1a19; --table-2: #141211; --ink: #ece6df; --muted: #a69b92; --paper: #fbfaf7;
+  --accent: #d1647a; --line: rgba(236,230,223,.14); --shadow: rgba(0,0,0,.6); --chip: rgba(255,255,255,.07); color-scheme: dark } }
+:root[data-theme="dark"] {
+  --table: #1d1a19; --table-2: #141211; --ink: #ece6df; --muted: #a69b92; --paper: #fbfaf7;
+  --accent: #d1647a; --line: rgba(236,230,223,.14); --shadow: rgba(0,0,0,.6); --chip: rgba(255,255,255,.07); color-scheme: dark }
+
+[hidden] { display: none !important; }
+*, *::before, *::after { box-sizing: border-box; }
+img { max-width: 100%; }
+html, body { height: 100%; margin: 0; }
+body { background: radial-gradient(ellipse at 50% 40%, var(--table) 0%, var(--table-2) 100%); background-color: var(--table); color: var(--ink); font-family: var(--f-ui); overflow: hidden; }
+.app { height: 100%; display: flex; flex-direction: column; }
+
+header { display: flex; align-items: center; gap: 16px; padding: 10px 16px; border-bottom: 1px solid var(--line); }
+.titles { min-width: 0; flex: 1; }
+.home { font-size: .78rem; color: var(--muted); text-decoration: none; letter-spacing: .04em; white-space: nowrap; }
+.home:hover { color: var(--accent); }
+@media (max-width: 640px) { .home { display: none; } }
+.titles h1 { font-family: var(--f-display); font-weight: 500; font-size: 1.15rem; margin: 0; line-height: 1.2; text-wrap: balance; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.titles h1 i { color: var(--accent); font-style: italic; }
+.titles p { margin: 2px 0 0; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+button { font: inherit; color: inherit; background: var(--chip); border: 1px solid var(--line); border-radius: 6px; height: 36px; min-width: 36px; padding: 0 10px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; font-size: .82rem; }
+button:hover { border-color: var(--accent); }
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button:disabled { opacity: .35; cursor: default; border-color: var(--line); }
+button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+.stage { flex: 1; min-height: 0; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; touch-action: pan-y; }
+.book { position: relative; perspective: 2600px; transition: transform .5s cubic-bezier(.3,.1,.2,1); }
+.half { position: absolute; top: 0; height: 100%; background: var(--paper); overflow: hidden; cursor: pointer; }
+.half.empty { background: transparent; box-shadow: none !important; cursor: default; }
+.half img, .face img { display: block; width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; }
+.half.l { box-shadow: -6px 10px 30px var(--shadow); }
+.half.r { box-shadow: 6px 10px 30px var(--shadow); }
+.single .half.l { box-shadow: 0 10px 30px var(--shadow); }
+/* gutter shading */
+.half.l::after, .half.r::after { content: ""; position: absolute; inset: 0; pointer-events: none; }
+.double .half.l:not(.empty)::after { background: linear-gradient(to left, rgba(0,0,0,.16), rgba(0,0,0,0) 7%); }
+.double .half.r:not(.empty)::after { background: linear-gradient(to right, rgba(0,0,0,.18), rgba(0,0,0,0) 7%); }
+
+.leaf { position: absolute; top: 0; height: 100%; transform-style: preserve-3d; z-index: 5; pointer-events: none; }
+.face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; background: var(--paper); overflow: hidden; }
+.face.back { transform: rotateY(180deg); }
+.face.blank { background: var(--paper); }
+.face::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: var(--sh, 0); }
+.face.front::after { background: linear-gradient(to left, rgba(0,0,0,.35), rgba(0,0,0,0) 60%); }
+.leaf.from-l .face.front::after { background: linear-gradient(to right, rgba(0,0,0,.35), rgba(0,0,0,0) 60%); }
+.face.back::after { background: linear-gradient(to right, rgba(0,0,0,.3), rgba(0,0,0,0) 60%); }
+.leaf.from-l .face.back::after { background: linear-gradient(to left, rgba(0,0,0,.3), rgba(0,0,0,0) 60%); }
+
+.side-btn { position: absolute; top: 50%; transform: translateY(-50%); z-index: 8; height: 56px; width: 40px; background: var(--chip); backdrop-filter: blur(4px); }
+.side-btn.prev { left: 12px; } .side-btn.next { right: 12px; }
+
+footer { display: flex; align-items: center; gap: 10px; padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); flex-wrap: wrap; justify-content: center; }
+.folio { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--muted); min-width: 9.5em; text-align: center; }
+.folio b { color: var(--ink); font-weight: 500; }
+input[type=range] { flex: 1; min-width: 120px; max-width: 520px; accent-color: var(--accent); }
+
+/* overlays */
+.overlay { position: fixed; inset: 0; z-index: 50; background: var(--table-2); display: flex; flex-direction: column; }
+.overlay .bar { display: flex; align-items: center; gap: 12px; padding: 10px 16px; padding-top: calc(10px + env(safe-area-inset-top, 0px)); border-bottom: 1px solid var(--line); }
+.overlay .bar h2 { font-family: var(--f-display); font-weight: 500; font-size: 1.05rem; margin: 0; flex: 1; }
+.overlay .body { flex: 1; overflow: auto; padding: 20px 16px 40px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 22px 18px; max-width: 1200px; margin: 0 auto; }
+.spread-th { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; background: none; border: 0; height: auto; padding: 4px; }
+.spread-th .pp { display: flex; justify-content: center; box-shadow: 0 4px 14px var(--shadow); }
+.spread-th img { width: 64px; height: 90px; display: block; background: var(--paper); }
+.spread-th span { font-size: .72rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.spread-th.on .pp { outline: 2px solid var(--accent); outline-offset: 3px; }
+.zoom-body { display: flex; gap: 0; justify-content: center; align-items: flex-start; padding: 16px; }
+.zoom-body img { width: min(1240px, 100%); height: auto; background: var(--paper); box-shadow: 0 10px 30px var(--shadow); }
+.zoom-body.two img { width: min(1240px, 50%); }
+
+.toc { list-style: none; margin: 0 auto; padding: 0; max-width: 640px; }
+.toc li button { width: 100%; height: auto; justify-content: flex-start; text-align: left; padding: 14px 14px; gap: 16px; background: none; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; }
+.toc li button:hover { background: var(--chip); }
+.toc .n { font-variant-numeric: tabular-nums; color: var(--accent); width: 2.2em; flex: none; font-size: .85rem; }
+.toc .t { font-family: var(--f-display); font-size: 1.08rem; line-height: 1.3; }
+.toc .a { display: block; font-family: var(--f-ui); font-size: .78rem; color: var(--muted); margin-top: 3px; }
+
+.hint { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); font-size: .72rem; color: var(--muted); letter-spacing: .04em; pointer-events: none; transition: opacity .6s; white-space: nowrap; }
+
+@media (max-width: 640px) {
+  .titles p { display: none; }
+  .hide-sm { display: none; }
+  .side-btn { display: none; }
+  .folio { min-width: 7em; }
+}
+@media (prefers-reduced-motion: reduce) { .book { transition: none; } }
+</style>
+
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="titles">
+      <h1>Smoking Coasts <i>and</i> Ice-bound Seas</h1>
+      <p>Cook’s Voyage to the Arctic · Captain Cook Memorial Museum, Whitby 2008</p>
+    </div>
+    <a class="home" href="/" title="keithhodgson.co.uk">Keith Hodgson</a>
+    <button id="btnToc" aria-label="Contents"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span class="hide-sm">Contents</span></button>
+  </header>
+
+  <div class="stage" id="stage">
+    <button class="side-btn prev" id="sidePrev" aria-label="Previous page"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="book" id="book">
+      <div class="half l" id="hl"></div>
+      <div class="half r" id="hr"></div>
+    </div>
+    <button class="side-btn next" id="sideNext" aria-label="Next page"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    <div class="hint" id="hint">Click a page or use the arrow keys to turn</div>
+  </div>
+
+  <footer>
+    <button id="btnFirst" aria-label="First page"><svg viewBox="0 0 24 24"><path d="M6 5v14M17 5l-7 7 7 7"/></svg></button>
+    <button id="btnPrev" aria-label="Previous page"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <input type="range" id="slider" min="1" max="64" value="1" aria-label="Go to page">
+    <div class="folio" id="folio"></div>
+    <button id="btnNext" aria-label="Next page"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    <button id="btnLast" aria-label="Last page"><svg viewBox="0 0 24 24"><path d="M18 5v14M7 5l7 7-7 7"/></svg></button>
+    <button id="btnGrid" aria-label="All pages"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><rect x="14" y="14" width="6" height="6"/></svg><span class="hide-sm">Pages</span></button>
+    <button id="btnZoom" aria-label="Zoom in"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5M11 8v6M8 11h6"/></svg><span class="hide-sm">Zoom</span></button>
+    <button id="btnFull" aria-label="Full screen" class="hide-sm"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+  </footer>
+</div>
+
+<div class="overlay" id="ovGrid" hidden>
+  <div class="bar"><h2>All pages</h2><button data-close aria-label="Close">Close</button></div>
+  <div class="body"><div class="grid" id="grid"></div></div>
+</div>
+<div class="overlay" id="ovToc" hidden>
+  <div class="bar"><h2>Contents</h2><button data-close aria-label="Close">Close</button></div>
+  <div class="body"><ul class="toc" id="toc"></ul></div>
+</div>
+<div class="overlay" id="ovZoom" hidden>
+  <div class="bar"><h2 id="zoomTitle">Zoom</h2><button data-close aria-label="Close">Close</button></div>
+  <div class="body zoom-body" id="zoomBody"></div>
+</div>
+
+<script>
+(() => {
+  const N = 64, RATIO = 595.28 / 841.89, DUR = 700;
+  const src = p => `/smoking-coasts-flipbook/pages/p${String(p).padStart(2, "0")}.webp`;
+  const th  = p => `/smoking-coasts-flipbook/pages/t${String(p).padStart(2, "0")}.webp`;
+  const SECTIONS = [
+    { p: 1,  t: "Front cover" },
+    { p: 5,  t: "Title page" },
+    { p: 6,  t: "Acknowledgements" },
+    { p: 7,  t: "Contents" },
+    { p: 9,  t: "‘So much polite civilization in a Country so remote’: the visit of the Resolution and Discovery to Kamchatka, 1779", a: "Glyndwr Williams" },
+    { p: 21, t: "The Captain’s artist: the career of John Webber R.A.", a: "Geoff Quilley" },
+    { p: 31, t: "The Peoples of Eastern Siberia", a: "Sergey Arutiunov" },
+    { p: 41, t: "A note on the ‘afterlife’ of Kamchatka", a: "Sophie Forgan" },
+    { p: 49, t: "Catalogue" },
+    { p: 59, t: "Bibliography" },
+    { p: 64, t: "Back cover" },
+  ];
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const $ = id => document.getElementById(id);
+  const stage = $("stage"), book = $("book"), hl = $("hl"), hr = $("hr");
+
+  let mode = "double", pw = 0, ph = 0, page = 1, busy = false;
+
+  // spread helpers (double mode): spread s shows [2s, 2s+1]; page 0 and 65 are empty
+  const spreadOf = p => Math.floor(p / 2);
+  const pagesOf = s => [2 * s >= 1 ? 2 * s : null, 2 * s + 1 <= N ? 2 * s + 1 : null];
+  const lastSpread = spreadOf(N);
+
+  function setHalf(el, p) {
+    el.dataset.p = p || "";
+    if (!p) { el.classList.add("empty"); el.innerHTML = ""; return; }
+    el.classList.remove("empty");
+    const img = el.querySelector("img");
+    if (img && img.dataset.p == p) return;
+    el.innerHTML = `<img alt="Page ${p}" data-p="${p}" src="${src(p)}" draggable="false">`;
+  }
+  function face(p, cls) {
+    return p ? `<div class="face ${cls}"><img alt="" src="${src(p)}" draggable="false"></div>` : `<div class="face ${cls} blank"></div>`;
+  }
+
+  function layout() {
+    const W = stage.clientWidth - 32, H = stage.clientHeight - 28;
+    const newMode = (W > 640 && W / H > 1.0) ? "double" : "single";
+    mode = newMode;
+    stage.classList.toggle("double", mode === "double");
+    stage.classList.toggle("single", mode === "single");
+    const maxPw = mode === "double" ? (W - 110) / 2 : W;
+    pw = Math.floor(Math.max(120, Math.min(H * RATIO, maxPw)));
+    ph = Math.floor(pw / RATIO);
+    book.style.width = (mode === "double" ? pw * 2 : pw) + "px";
+    book.style.height = ph + "px";
+    hl.style.width = hr.style.width = pw + "px";
+    hl.style.left = "0px";
+    hr.style.left = pw + "px";
+    hr.hidden = mode === "single";
+    render(true);
+  }
+
+  function centreShift(l, r) {
+    if (mode !== "double") return 0;
+    if (!l && r) return -pw / 2;
+    if (l && !r) return pw / 2;
+    return 0;
+  }
+
+  function render(instant) {
+    if (mode === "double") {
+      const [l, r] = pagesOf(spreadOf(page));
+      setHalf(hl, l); setHalf(hr, r);
+      if (instant) book.style.transition = "none";
+      book.style.transform = `translateX(${centreShift(l, r)}px)`;
+      if (instant) { book.offsetWidth; book.style.transition = ""; }
+    } else {
+      setHalf(hl, page);
+      book.style.transform = "none";
+    }
+    updateUI();
+    preload();
+  }
+
+  function visible() {
+    if (mode === "single") return [page];
+    return pagesOf(spreadOf(page)).filter(Boolean);
+  }
+
+  function updateUI() {
+    const v = visible();
+    $("folio").innerHTML = v.length === 2 ? `Pages <b>${v[0]}–${v[1]}</b> of ${N}` : `Page <b>${v[0]}</b> of ${N}`;
+    $("slider").value = v[0];
+    const atStart = mode === "double" ? spreadOf(page) === 0 : page === 1;
+    const atEnd = mode === "double" ? spreadOf(page) === lastSpread : page === N;
+    ["btnPrev", "btnFirst", "sidePrev"].forEach(id => $(id).disabled = atStart);
+    ["btnNext", "btnLast", "sideNext"].forEach(id => $(id).disabled = atEnd);
+    try { history.replaceState(null, "", "#p" + v[0]); } catch (e) {}
+  }
+
+  const cache = {};
+  function preload() {
+    const from = Math.max(1, page - 3), to = Math.min(N, page + 5);
+    for (let p = from; p <= to; p++) if (!cache[p]) { const i = new Image(); i.src = src(p); cache[p] = i; }
+  }
+
+  function animateLeaf(leaf, to, done) {
+    if (reduce) { done(); return; }
+    let finished = false;
+    const end = () => { if (finished) return; finished = true; done(); };
+    leaf.style.transition = `transform ${DUR}ms cubic-bezier(.45,.05,.3,1)`;
+    const faces = leaf.querySelectorAll(".face");
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      leaf.style.transform = `rotateY(${to}deg)`;
+    }));
+    leaf.addEventListener("transitionend", end, { once: true });
+    setTimeout(end, DUR + 120);
+    // simple shading driver
+    const t0 = performance.now();
+    (function tick(t) {
+      const k = Math.min(1, (t - t0) / DUR), s = Math.sin(k * Math.PI);
+      faces.forEach(f => f.style.setProperty("--sh", s.toFixed(3)));
+      if (k < 1 && !finished) requestAnimationFrame(tick);
+    })(t0);
+  }
+
+  function go(target, animate = true) {
+    target = Math.max(1, Math.min(N, target));
+    if (busy) return;
+    if (mode === "double") {
+      const cs = spreadOf(page), ts = spreadOf(target);
+      if (ts === cs) return;
+      if (!animate || Math.abs(ts - cs) > 1 || reduce) { page = target; render(false); return; }
+      busy = true;
+      const [cl, cr] = pagesOf(cs), [tl, tr] = pagesOf(ts);
+      const leaf = document.createElement("div");
+      leaf.className = "leaf";
+      leaf.style.width = pw + "px";
+      if (ts > cs) {
+        leaf.style.left = pw + "px"; leaf.style.transformOrigin = "left center";
+        leaf.innerHTML = face(cr, "front") + face(tl, "back");
+        book.appendChild(leaf);
+        setHalf(hr, tr);
+        book.style.transform = `translateX(${centreShift(cl || tl, tr)}px)`;
+        animateLeaf(leaf, -180, () => { setHalf(hl, tl); leaf.remove(); page = target; busy = false; render(false); });
+      } else {
+        leaf.style.left = "0px"; leaf.style.transformOrigin = "right center";
+        leaf.classList.add("from-l");
+        leaf.innerHTML = face(cl, "front") + face(tr, "back");
+        book.appendChild(leaf);
+        setHalf(hl, tl);
+        book.style.transform = `translateX(${centreShift(tl, cr || tr)}px)`;
+        animateLeaf(leaf, 180, () => { setHalf(hr, tr); leaf.remove(); page = target; busy = false; render(false); });
+      }
+    } else {
+      if (target === page) return;
+      if (!animate || Math.abs(target - page) > 1 || reduce) { page = target; render(false); return; }
+      busy = true;
+      const leaf = document.createElement("div");
+      leaf.className = "leaf";
+      leaf.style.width = pw + "px"; leaf.style.left = "0px"; leaf.style.transformOrigin = "left center";
+      if (target > page) {
+        leaf.innerHTML = face(page, "front") + face(null, "back");
+        book.appendChild(leaf);
+        setHalf(hl, target);
+        leaf.style.transition = "opacity 200ms";
+        animateLeaf(leaf, -180, () => { leaf.remove(); page = target; busy = false; render(false); });
+        setTimeout(() => { leaf.style.opacity = "0"; }, DUR * 0.55);
+      } else {
+        leaf.innerHTML = face(target, "front") + face(null, "back");
+        leaf.style.transform = "rotateY(-180deg)";
+        book.appendChild(leaf);
+        animateLeaf(leaf, 0, () => { setHalf(hl, target); leaf.remove(); page = target; busy = false; render(false); });
+      }
+    }
+  }
+
+  const next = () => mode === "double" ? go(Math.min(N, 2 * spreadOf(page) + 2)) : go(page + 1);
+  const prev = () => mode === "double" ? go(Math.max(1, 2 * spreadOf(page) - 1)) : go(page - 1);
+
+  // controls
+  $("btnNext").onclick = $("sideNext").onclick = next;
+  $("btnPrev").onclick = $("sidePrev").onclick = prev;
+  $("btnFirst").onclick = () => go(1, false);
+  $("btnLast").onclick = () => go(N, false);
+  $("slider").addEventListener("input", e => { page = +e.target.value; render(false); });
+  hl.addEventListener("click", () => { if (hl.classList.contains("empty")) return; mode === "double" ? prev() : next(); });
+  hr.addEventListener("click", () => { if (!hr.classList.contains("empty")) next(); });
+
+  document.addEventListener("keydown", e => {
+    const open = document.querySelector(".overlay:not([hidden])");
+    if (e.key === "Escape" && open) { open.hidden = true; return; }
+    if (open) return;
+    if (e.key === "ArrowRight" || e.key === "PageDown" || e.key === " ") { e.preventDefault(); next(); }
+    else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); prev(); }
+    else if (e.key === "Home") go(1, false);
+    else if (e.key === "End") go(N, false);
+  });
+
+  let tx = null, ty = null;
+  stage.addEventListener("touchstart", e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+  stage.addEventListener("touchend", e => {
+    if (tx === null) return;
+    const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { dx < 0 ? next() : prev(); }
+    tx = null;
+  });
+
+  // overlays
+  document.querySelectorAll("[data-close]").forEach(b => b.onclick = () => b.closest(".overlay").hidden = true);
+  document.querySelectorAll(".overlay").forEach(o => o.addEventListener("click", e => { if (e.target === o.querySelector(".body") && o.id !== "ovZoom") o.hidden = true; }));
+
+  // thumbnail grid (by spread)
+  const grid = $("grid");
+  for (let s = 0; s <= lastSpread; s++) {
+    const [l, r] = pagesOf(s);
+    const b = document.createElement("button");
+    b.className = "spread-th"; b.dataset.s = s;
+    b.innerHTML = `<div class="pp">${l ? `<img loading="lazy" alt="" src="${th(l)}">` : ""}${r ? `<img loading="lazy" alt="" src="${th(r)}">` : ""}</div><span>${l && r ? l + "–" + r : (l || r)}</span>`;
+    b.setAttribute("aria-label", l && r ? `Pages ${l} and ${r}` : `Page ${l || r}`);
+    b.onclick = () => { $("ovGrid").hidden = true; page = l || r; render(false); };
+    grid.appendChild(b);
+  }
+  $("btnGrid").onclick = () => {
+    const s = spreadOf(page);
+    grid.querySelectorAll(".spread-th").forEach(b => b.classList.toggle("on", +b.dataset.s === s));
+    $("ovGrid").hidden = false;
+    const on = grid.querySelector(".on"); if (on) on.scrollIntoView({ block: "center" });
+  };
+
+  // contents
+  const toc = $("toc");
+  SECTIONS.forEach(x => {
+    const li = document.createElement("li");
+    li.innerHTML = `<button><span class="n">${x.p}</span><span class="t">${x.t}${x.a ? `<span class="a">${x.a}</span>` : ""}</span></button>`;
+    li.firstChild.onclick = () => { $("ovToc").hidden = true; page = x.p; render(false); };
+    toc.appendChild(li);
+  });
+  $("btnToc").onclick = () => $("ovToc").hidden = false;
+
+  // zoom
+  $("btnZoom").onclick = () => {
+    const v = visible();
+    const zb = $("zoomBody");
+    zb.classList.toggle("two", v.length === 2 && innerWidth > 700);
+    zb.innerHTML = v.map(p => `<img alt="Page ${p}" src="${src(p)}">`).join("");
+    $("zoomTitle").textContent = v.length === 2 ? `Pages ${v[0]}–${v[1]}` : `Page ${v[0]}`;
+    $("ovZoom").hidden = false;
+    zb.scrollTop = 0;
+  };
+
+  // fullscreen
+  $("btnFull").onclick = () => {
+    try {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else document.documentElement.requestFullscreen().catch(() => {});
+    } catch (e) {}
+  };
+
+  // start
+  const m = /^#p(\d+)$/.exec(location.hash);
+  if (m) page = Math.max(1, Math.min(N, +m[1]));
+  let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(layout, 120); });
+  layout();
+  setTimeout(() => { $("hint").style.opacity = "0"; }, 4500);
+})();
+</script>
+
+</body>
+</html>
