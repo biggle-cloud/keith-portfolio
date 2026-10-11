@@ -56,6 +56,9 @@ button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke
 .book { position: relative; perspective: 2600px; transition: transform .5s cubic-bezier(.3,.1,.2,1); }
 .half { position: absolute; top: 0; height: 100%; background: var(--paper); overflow: hidden; cursor: pointer; }
 .half.empty { background: transparent; box-shadow: none !important; cursor: default; }
+.hot { position: absolute; display: block; padding: 0; height: auto; min-width: 0; border: 0; border-radius: 3px; background: transparent; cursor: pointer; }
+.hot:hover { background: color-mix(in srgb, var(--accent) 9%, transparent); box-shadow: inset 2px 0 0 var(--accent); }
+.hot:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 .half img, .face img { display: block; width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; }
 .half.l { box-shadow: -6px 10px 30px var(--shadow); }
 .half.r { box-shadow: 6px 10px 30px var(--shadow); }
@@ -196,6 +199,32 @@ input[type=range] { flex: 1; min-width: 120px; max-width: 520px; accent-color: v
     { p: 39, t: "Select Bibliography" },
     { p: 40, t: "Back cover" },
   ];
+  // Clickable lines on the printed Contents page: [left%, top%, width%, height%, target page, title].
+  // Targets follow where each article actually falls; the printed folios in the proof are out of date.
+  const LINKS = {
+    5: [
+      [22.99, 40.36, 44.77, 2.22, 7, "Cook the Polar Explorer"],
+      [22.99, 43.31, 49.61, 1.97, 11, "The Great Undiscovered Southern Continent"],
+      [22.99, 45.45, 20.93, 2.35, 11, "Earlier voyages"],
+      [22.99, 47.58, 31.16, 2.35, 13, "Timeline of Cook’s Voyage"],
+      [22.99, 49.72, 39.62, 2.35, 14, "Seeing and Recording the Far South"],
+      [22.99, 52.93, 28.19, 2.35, 18, "A Floating Laboratory"],
+      [22.99, 55.07, 24.98, 1.97, 18, "The men of science"],
+      [22.99, 57.20, 29.82, 1.97, 21, "The work of instruments"],
+      [22.99, 59.34, 70.72, 2.35, 24, "Instruments supplied by the Board of Longitude"],
+      [22.99, 62.51, 55.96, 2.39, 25, "‘The Climate was Rigorous and the Food Detestable’"],
+      [22.99, 64.69, 30.97, 2.35, 26, "Surviving the Cold aboard"],
+      [22.99, 66.82, 56.02, 1.97, 28, "Māhine"],
+      [22.99, 70.03, 32.67, 2.35, 29, "Discovering South Georgia"],
+      [22.99, 73.24, 45.25, 2.35, 33, "Some consequences of being on the map"],
+      [22.99, 75.37, 51.97, 1.97, 33, "Use of whale and seal oil"],
+      [22.99, 77.51, 42.35, 2.35, 33, "Overhunting and introduction of pests"],
+      [22.99, 79.65, 55.84, 2.01, 34, "The Rime of the Ancient Mariner"],
+      [22.99, 81.79, 48.15, 2.35, 38, "Modern Antarctic clothing"],
+      [22.99, 84.99, 66.12, 2.35, 35, "South Georgia: a campaign of environmental recovery"],
+      [22.99, 88.20, 25.83, 2.35, 39, "Select Bibliography"],
+    ],
+  };
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const $ = id => document.getElementById(id);
   const stage = $("stage"), book = $("book"), hl = $("hl"), hr = $("hr");
@@ -214,7 +243,17 @@ input[type=range] { flex: 1; min-width: 120px; max-width: 520px; accent-color: v
     const img = el.querySelector("img");
     if (img && img.dataset.p == p) return;
     el.innerHTML = `<img alt="Page ${p}" data-p="${p}" src="${src(p)}" draggable="false">`;
+    (LINKS[p] || []).forEach(([x, y, w, h, to, t]) => {
+      const a = document.createElement("button");
+      a.className = "hot";
+      a.style.cssText = `left:${x}%;top:${y}%;width:${w}%;height:${h}%`;
+      a.title = `${t} (page ${to})`;
+      a.setAttribute("aria-label", `Go to ${t}, page ${to}`);
+      a.addEventListener("click", e => { e.stopPropagation(); jump(to); });
+      el.appendChild(a);
+    });
   }
+  function jump(to) { if (busy) return; page = to; render(false); }
   function face(p, cls) {
     return p ? `<div class="face ${cls}"><img alt="" src="${src(p)}" draggable="false"></div>` : `<div class="face ${cls} blank"></div>`;
   }
