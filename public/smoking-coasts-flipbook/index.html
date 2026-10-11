@@ -56,6 +56,9 @@ button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke
 .book { position: relative; perspective: 2600px; transition: transform .5s cubic-bezier(.3,.1,.2,1); }
 .half { position: absolute; top: 0; height: 100%; background: var(--paper); overflow: hidden; cursor: pointer; }
 .half.empty { background: transparent; box-shadow: none !important; cursor: default; }
+.hot { position: absolute; display: block; padding: 0; height: auto; min-width: 0; border: 0; border-radius: 3px; background: transparent; cursor: pointer; }
+.hot:hover { background: color-mix(in srgb, var(--accent) 9%, transparent); box-shadow: inset 2px 0 0 var(--accent); }
+.hot:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 .half img, .face img { display: block; width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; }
 .half.l { box-shadow: -6px 10px 30px var(--shadow); }
 .half.r { box-shadow: 6px 10px 30px var(--shadow); }
@@ -182,6 +185,18 @@ input[type=range] { flex: 1; min-width: 120px; max-width: 520px; accent-color: v
     { p: 59, t: "Bibliography" },
     { p: 64, t: "Back cover" },
   ];
+  // Clickable lines on the printed Contents page: [left%, top%, width%, height%, target page, title].
+  // Targets follow the flipbook's page numbers, so they jump past the covers and prelims.
+  const LINKS = {
+    7: [
+      [44.76, 21.89, 52.50, 6.39, 9, "The visit of the Resolution and Discovery to Kamchatka, 1779"],
+      [44.76, 32.61, 48.23, 4.50, 21, "The Captain’s artist: the career of John Webber R.A."],
+      [44.76, 41.16, 30.89, 4.56, 31, "The Peoples of Eastern Siberia"],
+      [44.76, 49.71, 36.94, 4.56, 41, "A note on the ‘afterlife’ of Kamchatka"],
+      [44.76, 58.27, 14.84, 2.45, 49, "Catalogue"],
+      [44.76, 64.65, 17.18, 2.45, 59, "Bibliography"],
+    ],
+  };
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const $ = id => document.getElementById(id);
   const stage = $("stage"), book = $("book"), hl = $("hl"), hr = $("hr");
@@ -200,7 +215,17 @@ input[type=range] { flex: 1; min-width: 120px; max-width: 520px; accent-color: v
     const img = el.querySelector("img");
     if (img && img.dataset.p == p) return;
     el.innerHTML = `<img alt="Page ${p}" data-p="${p}" src="${src(p)}" draggable="false">`;
+    (LINKS[p] || []).forEach(([x, y, w, h, to, t]) => {
+      const a = document.createElement("button");
+      a.className = "hot";
+      a.style.cssText = `left:${x}%;top:${y}%;width:${w}%;height:${h}%`;
+      a.title = `${t} (page ${to})`;
+      a.setAttribute("aria-label", `Go to ${t}, page ${to}`);
+      a.addEventListener("click", e => { e.stopPropagation(); jump(to); });
+      el.appendChild(a);
+    });
   }
+  function jump(to) { if (busy) return; page = to; render(false); }
   function face(p, cls) {
     return p ? `<div class="face ${cls}"><img alt="" src="${src(p)}" draggable="false"></div>` : `<div class="face ${cls} blank"></div>`;
   }

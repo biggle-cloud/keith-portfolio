@@ -56,6 +56,9 @@ button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke
 .book { position: relative; perspective: 2600px; transition: transform .5s cubic-bezier(.3,.1,.2,1); }
 .half { position: absolute; top: 0; height: 100%; background: var(--paper); overflow: hidden; cursor: pointer; }
 .half.empty { background: transparent; box-shadow: none !important; cursor: default; }
+.hot { position: absolute; display: block; padding: 0; height: auto; min-width: 0; border: 0; border-radius: 3px; background: transparent; cursor: pointer; }
+.hot:hover { background: color-mix(in srgb, var(--accent) 9%, transparent); box-shadow: inset 2px 0 0 var(--accent); }
+.hot:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 .half img, .face img { display: block; width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; }
 .half.l { box-shadow: -6px 10px 30px var(--shadow); }
 .half.r { box-shadow: 6px 10px 30px var(--shadow); }
@@ -186,6 +189,22 @@ input[type=range] { flex: 1; min-width: 120px; max-width: 520px; accent-color: v
     { p: 37, t: "A Continuing Tradition: Parkol Marine Engineering" },
     { p: 40, t: "Back cover" },
   ];
+  // Clickable lines on the printed Contents page: [left%, top%, width%, height%, target page, title].
+  // Targets follow the flipbook's page numbers, so they jump past the covers and prelims.
+  const LINKS = {
+    5: [
+      [39.92, 41.56, 49.35, 2.45, 7, "Introduction – an exceptional seafaring environment"],
+      [39.92, 45.61, 40.16, 2.45, 9, "Whitby: boom town of the 18th century"],
+      [39.92, 49.60, 29.03, 2.45, 13, "Shipping and Shipbuilding"],
+      [39.92, 53.65, 52.18, 2.45, 17, "Apprenticeship and the 18th century merchant marine"],
+      [39.92, 57.70, 34.03, 2.45, 21, "Mathematical Training in Whitby"],
+      [39.92, 61.74, 31.61, 2.11, 25, "Lionel Charlton and his Circle"],
+      [39.92, 65.79, 30.81, 2.45, 27, "Abel Chapman and his world"],
+      [39.92, 69.84, 22.26, 2.11, 33, "‘Success to the Whitby’"],
+      [39.92, 73.83, 48.87, 2.45, 37, "A continuing tradition: Parkol Marine Engineering"],
+      [39.92, 77.88, 22.82, 2.45, 35, "Select Bibliography"],
+    ],
+  };
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const $ = id => document.getElementById(id);
   const stage = $("stage"), book = $("book"), hl = $("hl"), hr = $("hr");
@@ -204,7 +223,17 @@ input[type=range] { flex: 1; min-width: 120px; max-width: 520px; accent-color: v
     const img = el.querySelector("img");
     if (img && img.dataset.p == p) return;
     el.innerHTML = `<img alt="Page ${p}" data-p="${p}" src="${src(p)}" draggable="false">`;
+    (LINKS[p] || []).forEach(([x, y, w, h, to, t]) => {
+      const a = document.createElement("button");
+      a.className = "hot";
+      a.style.cssText = `left:${x}%;top:${y}%;width:${w}%;height:${h}%`;
+      a.title = `${t} (page ${to})`;
+      a.setAttribute("aria-label", `Go to ${t}, page ${to}`);
+      a.addEventListener("click", e => { e.stopPropagation(); jump(to); });
+      el.appendChild(a);
+    });
   }
+  function jump(to) { if (busy) return; page = to; render(false); }
   function face(p, cls) {
     return p ? `<div class="face ${cls}"><img alt="" src="${src(p)}" draggable="false"></div>` : `<div class="face ${cls} blank"></div>`;
   }
