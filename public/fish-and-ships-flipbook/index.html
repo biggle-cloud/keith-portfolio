@@ -436,7 +436,7 @@ input[type=range] { flex: 1; min-width: 120px; max-width: 520px; accent-color: v
   const toc = $("toc");
   SECTIONS.forEach(x => {
     const li = document.createElement("li");
-    li.innerHTML = `<button><span class="n">${x.p}</span><span class="t">${x.t}${x.a ? `<span class="a">${x.a}</span>` : ""}</span></button>`;
+    li.innerHTML = `<button><span class="t">${x.t}${x.a ? `<span class="a">${x.a}</span>` : ""}</span></button>`;
     li.firstChild.onclick = () => { $("ovToc").hidden = true; page = x.p; render(false); };
     toc.appendChild(li);
   });
