@@ -106,7 +106,7 @@ input[type=range] { flex: 1; min-width: 120px; max-width: 520px; accent-color: v
 .toc li button:hover { background: var(--chip); }
 .toc .n { font-variant-numeric: tabular-nums; color: var(--accent); width: 2.6em; flex: none; font-size: .85rem; }
 .toc .t { font-family: var(--f-display); font-size: 1.08rem; line-height: 1.3; }
-.toc li.sub button { padding: 7px 14px 7px 44px; }
+.toc li.sub button { padding: 7px 14px 7px 34px; }
 .toc li.sub .t { font-size: .95rem; }
 .toc .a { display: block; font-family: var(--f-ui); font-size: .78rem; color: var(--muted); margin-top: 3px; }
 
@@ -479,7 +479,7 @@ input[type=range] { flex: 1; min-width: 120px; max-width: 520px; accent-color: v
   SECTIONS.forEach(x => {
     const li = document.createElement("li");
     if (x.s) li.className = "sub";
-    li.innerHTML = `<button><span class="n">${x.p}</span><span class="t">${x.t}${x.a ? `<span class="a">${x.a}</span>` : ""}</span></button>`;
+    li.innerHTML = `<button><span class="t">${x.t}${x.a ? `<span class="a">${x.a}</span>` : ""}</span></button>`;
     li.firstChild.onclick = () => { $("ovToc").hidden = true; page = x.p; render(false); };
     toc.appendChild(li);
   });
