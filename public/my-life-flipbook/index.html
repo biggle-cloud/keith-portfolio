@@ -54,7 +54,7 @@ button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke
 
 .stage { flex: 1; min-height: 0; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; touch-action: pan-y; }
 .book { position: relative; perspective: 2600px; transition: transform .5s cubic-bezier(.3,.1,.2,1); }
-.half { position: absolute; top: 0; height: 100%; background: var(--paper); overflow: hidden; cursor: pointer; }
+.half { position: absolute; top: 0; height: 100%; background: var(--paper); overflow: hidden; cursor: default; }
 .half.empty { background: transparent; box-shadow: none !important; cursor: default; }
 .hot { position: absolute; display: block; padding: 0; height: auto; min-width: 0; border: 0; border-radius: 3px; background: transparent; cursor: pointer; }
 .hot:hover { background: color-mix(in srgb, var(--accent) 9%, transparent); box-shadow: inset 2px 0 0 var(--accent); }
@@ -267,15 +267,7 @@ input[type=range] { flex: 1; min-width: 120px; max-width: 520px; accent-color: v
     { p: 358, t: "Back cover" },
   ];
   // Clickable lines on the printed Contents page: [left%, top%, width%, height%, target page, title].
-  // Only chapters that open with their own heading are linked so far.
-  const LINKS = {
-    13: [
-      [15.32, 37.01, 29.92, 3.01, 9, "Introduction"],
-      [15.32, 40.55, 69.92, 3.47, 10, "Naval Career – Chronological List of Appointments"],
-      [15.32, 44.22, 24.19, 2.94, 15, "Parents"],
-      [15.32, 47.70, 41.69, 3.01, 27, "Early Life"],
-    ],
-  };
+  const LINKS = {};  // no clickable contents lines in this book: use Contents or Search
   const TEXT_URL = "/my-life-flipbook/text.json";
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const $ = id => document.getElementById(id);
