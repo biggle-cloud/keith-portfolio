@@ -146,7 +146,7 @@ input[type=range] { flex: 1; min-width: 120px; max-width: 520px; accent-color: v
   <footer>
     <button id="btnFirst" aria-label="First page"><svg viewBox="0 0 24 24"><path d="M6 5v14M17 5l-7 7 7 7"/></svg></button>
     <button id="btnPrev" aria-label="Previous page"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
-    <input type="range" id="slider" min="1" max="360" value="1" aria-label="Go to page">
+    <input type="range" id="slider" min="1" max="358" value="1" aria-label="Go to page">
     <div class="folio" id="folio"></div>
     <button id="btnNext" aria-label="Next page"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
     <button id="btnLast" aria-label="Last page"><svg viewBox="0 0 24 24"><path d="M18 5v14M7 5l7 7-7 7"/></svg></button>
@@ -171,7 +171,7 @@ input[type=range] { flex: 1; min-width: 120px; max-width: 520px; accent-color: v
 
 <script>
 (() => {
-  const N = 360, RATIO = 697.32 / 841.89, DUR = 700;
+  const N = 358, RATIO = 697.32 / 841.89, DUR = 700;
   const src = p => `/my-life-flipbook/pages/p${String(p).padStart(3, "0")}.webp`;
   const th  = p => `/my-life-flipbook/pages/t${String(p).padStart(3, "0")}.webp`;
   const SECTIONS = [
@@ -243,7 +243,7 @@ input[type=range] { flex: 1; min-width: 120px; max-width: 520px; accent-color: v
     { p: 347, t: "January 1945", s: 1 },
     { p: 352, t: "August 1945", s: 1 },
     { p: 357, t: "Postscript" },
-    { p: 360, t: "Back cover" },
+    { p: 358, t: "Back cover" },
   ];
   // Clickable lines on the printed Contents page: [left%, top%, width%, height%, target page, title].
   // Only chapters that open with their own heading are linked so far.
