@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
       { source: "/fish-and-ships", destination: "/fish-and-ships-flipbook/index.html" },
       { source: "/whitby-time-of-cook", destination: "/whitby-time-of-cook-flipbook/index.html" },
       { source: "/ice", destination: "/ice-flipbook/index.html" },
+      { source: "/my-life", destination: "/my-life-flipbook/index.html" },
     ];
   },
 };
