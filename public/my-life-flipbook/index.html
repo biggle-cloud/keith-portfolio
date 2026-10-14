@@ -110,6 +110,16 @@ input[type=range] { flex: 1; min-width: 120px; max-width: 520px; accent-color: v
 .toc li.sub .t { font-size: .95rem; }
 .toc .a { display: block; font-family: var(--f-ui); font-size: .78rem; color: var(--muted); margin-top: 3px; }
 
+.find { max-width: 680px; margin: 0 auto; }
+.find input { width: 100%; font: inherit; font-size: 1rem; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; }
+.find input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.find-note { font-size: .78rem; color: var(--muted); margin: 10px 2px 6px; }
+.hits { list-style: none; margin: 0; padding: 0; }
+.hits button { width: 100%; height: auto; display: block; text-align: left; padding: 12px 10px; background: none; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; }
+.hits button:hover { background: var(--chip); }
+.hits .pg { display: block; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.hits .sn { font-family: var(--f-display); font-size: .98rem; line-height: 1.45; color: var(--ink); }
+.hits mark { background: color-mix(in srgb, var(--accent) 18%, transparent); color: inherit; padding: 0 1px; }
 .hint { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); font-size: .72rem; color: var(--muted); letter-spacing: .04em; pointer-events: none; transition: opacity .6s; white-space: nowrap; }
 
 @media (max-width: 640px) {
@@ -130,6 +140,7 @@ input[type=range] { flex: 1; min-width: 120px; max-width: 520px; accent-color: v
       <p>Admiral Sir William Davis, 1901–1987 · Four volumes, 354 pages</p>
     </div>
     <a class="home" href="/" title="keithhodgson.co.uk">Keith Hodgson</a>
+    <button id="btnFind" aria-label="Search the text"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg><span class="hide-sm">Search</span></button>
     <button id="btnToc" aria-label="Contents"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span class="hide-sm">Contents</span></button>
   </header>
 
@@ -159,6 +170,16 @@ input[type=range] { flex: 1; min-width: 120px; max-width: 520px; accent-color: v
 <div class="overlay" id="ovGrid" hidden>
   <div class="bar"><h2>All pages</h2><button data-close aria-label="Close">Close</button></div>
   <div class="body"><div class="grid" id="grid"></div></div>
+</div>
+<div class="overlay" id="ovFind" hidden>
+  <div class="bar"><h2>Search the text</h2><button data-close aria-label="Close">Close</button></div>
+  <div class="body">
+    <div class="find">
+      <input type="search" id="findQ" placeholder="A name, ship or place, e.g. Bismarck" aria-label="Search the text" autocomplete="off">
+      <p class="find-note" id="findNote">Type at least three letters.</p>
+      <ul class="hits" id="findHits"></ul>
+    </div>
+  </div>
 </div>
 <div class="overlay" id="ovToc" hidden>
   <div class="bar"><h2>Contents</h2><button data-close aria-label="Close">Close</button></div>
@@ -255,6 +276,7 @@ input[type=range] { flex: 1; min-width: 120px; max-width: 520px; accent-color: v
       [15.32, 47.70, 41.69, 3.01, 27, "Early Life"],
     ],
   };
+  const TEXT_URL = "/my-life-flipbook/text.json";
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const $ = id => document.getElementById(id);
   const stage = $("stage"), book = $("book"), hl = $("hl"), hr = $("hr");
@@ -484,6 +506,47 @@ input[type=range] { flex: 1; min-width: 120px; max-width: 520px; accent-color: v
     toc.appendChild(li);
   });
   $("btnToc").onclick = () => $("ovToc").hidden = false;
+
+  // search the text
+  let TEXT = null, NORM = null, ft;
+  const norm = x => x.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[’‘]/g, "'").toLowerCase();
+  const esc = x => x.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  async function loadText() {
+    if (TEXT) return;
+    $("findNote").textContent = "Loading the text…";
+    try {
+      TEXT = await (await fetch(TEXT_URL)).json();
+      NORM = TEXT.map(norm);
+      $("findNote").textContent = "Type at least three letters.";
+    } catch (e) { $("findNote").textContent = "The text couldn’t be loaded. Check your connection and try again."; TEXT = null; }
+  }
+  function find() {
+    const q = norm($("findQ").value.trim()), ul = $("findHits");
+    ul.innerHTML = "";
+    if (!TEXT) return;
+    if (q.length < 3) { $("findNote").textContent = "Type at least three letters."; return; }
+    let pages = 0, total = 0;
+    for (let p = 1; p < NORM.length; p++) {
+      const t = NORM[p]; if (!t) continue;
+      let i = t.indexOf(q); if (i < 0) continue;
+      pages++;
+      let n = 0, j = i; while (j >= 0) { n++; j = t.indexOf(q, j + q.length); }
+      total += n;
+      if (pages > 300) continue;
+      const raw = TEXT[p];
+      let a = Math.max(0, i - 70), b = Math.min(raw.length, i + q.length + 90);
+      if (a > 0) { const sp = raw.indexOf(" ", a); if (sp > -1 && sp < i) a = sp + 1; }
+      if (b < raw.length) { const sp = raw.lastIndexOf(" ", b); if (sp > i + q.length) b = sp; }
+      const snip = (a > 0 ? "…" : "") + esc(raw.slice(a, i)) + "<mark>" + esc(raw.slice(i, i + q.length)) + "</mark>" + esc(raw.slice(i + q.length, b)) + (b < raw.length ? "…" : "");
+      const li = document.createElement("li");
+      li.innerHTML = `<button><span class="pg">Page ${p}${n > 1 ? ` · ${n} mentions` : ""}</span><span class="sn">${snip}</span></button>`;
+      li.firstChild.onclick = () => { $("ovFind").hidden = true; page = p; render(false); };
+      ul.appendChild(li);
+    }
+    $("findNote").textContent = pages ? `Found on ${pages} page${pages > 1 ? "s" : ""} (${total} mention${total > 1 ? "s" : ""}).` + (pages > 300 ? " Showing the first 300." : "") : "No matches. Try a shorter word or a different spelling.";
+  }
+  $("btnFind").onclick = async () => { $("ovFind").hidden = false; $("findQ").focus(); await loadText(); if ($("findQ").value) find(); };
+  $("findQ").addEventListener("input", () => { clearTimeout(ft); ft = setTimeout(find, 200); });
 
   // zoom
   $("btnZoom").onclick = () => {
