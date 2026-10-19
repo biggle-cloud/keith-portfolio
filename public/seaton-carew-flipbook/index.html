@@ -255,6 +255,13 @@
     .stage{padding:10px 8px;}
     .hint{display:none;}
   }
+  /* The spread is long and narrow, so the side arrows are dropped at
+     every screen size and prev/next live in the control pill instead,
+     letting the pages run the full width of the box. */
+  .stage .nav-btn{display:none;}
+  .stage{padding-left:0;padding-right:0;}
+  .pill .pill-nav{display:flex;}
+  .pill .pill-nav[disabled]{opacity:0.3;cursor:default;}
 </style>
 </head>
 <body>
@@ -275,12 +282,18 @@
   </div>
   <footer>
     <div class="pill">
+      <button class="pill-nav" id="mPrevBtn" aria-label="Previous page" title="Previous page">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
       <button id="firstBtn" aria-label="First page" title="First page">
         <svg viewBox="0 0 24 24"><path d="M18 6L10 12l8 6M6 6v12"/></svg>
       </button>
       <span id="pageCount">1 / 14</span>
       <button id="fsBtn" aria-label="Toggle fullscreen" title="Fullscreen">
         <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+      </button>
+      <button class="pill-nav" id="mNextBtn" aria-label="Next page" title="Next page">
+        <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
       </button>
     </div>
     <span class="hint">Best viewed on a larger screen</span>
@@ -301,6 +314,8 @@
   var prevBtn = document.getElementById('prevBtn');
   var nextBtn = document.getElementById('nextBtn');
   var firstBtn = document.getElementById('firstBtn');
+  var mPrevBtn = document.getElementById('mPrevBtn');
+  var mNextBtn = document.getElementById('mNextBtn');
   var fsBtn = document.getElementById('fsBtn');
 
   var PAGE_W = 1240, PAGE_H = 878;
@@ -413,8 +428,8 @@
     var totalSpreads = Math.ceil(total / 2);
     var curSpread = Math.min(Math.floor(cur / 2) + 1, totalSpreads);
     pageCountEl.textContent = curSpread + ' / ' + totalSpreads;
-    prevBtn.disabled = cur <= 0;
-    nextBtn.disabled = cur >= total - 1;
+    prevBtn.disabled = mPrevBtn.disabled = cur <= 0;
+    nextBtn.disabled = mNextBtn.disabled = cur >= total - 1;
   }
 
   // Every "page" here is one half of an original spread, re-paired by
@@ -482,6 +497,8 @@
   prevBtn.addEventListener('click', function(){ pageFlip.flipPrev(); });
   nextBtn.addEventListener('click', function(){ pageFlip.flipNext(); });
   firstBtn.addEventListener('click', function(){ pageFlip.flip(0); });
+  mPrevBtn.addEventListener('click', function(){ pageFlip.flipPrev(); });
+  mNextBtn.addEventListener('click', function(){ pageFlip.flipNext(); });
 
   document.addEventListener('keydown', function(e){
     if(e.key === 'ArrowLeft') pageFlip.flipPrev();
