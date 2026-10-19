@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { photoPlates, designPlates } from "./data";
+import { photoPlates, designPlates, gnatFlipbook } from "./data";
 
 export default function Home() {
   const designHighlights = designPlates.filter((p) => p.src).slice(-4);
@@ -61,6 +61,19 @@ export default function Home() {
             as designed — a rarer outcome than you&rsquo;d think.
           </p>
           <div className="design-grid">
+            <div className="full-page embed-page">
+              <div className="plate filled embed-plate">
+                <iframe
+                  src={gnatFlipbook.embedSrc}
+                  title={gnatFlipbook.alt}
+                  loading="lazy"
+                  allow="fullscreen"
+                  allowFullScreen
+                />
+              </div>
+              <div className="client-name">{gnatFlipbook.client}</div>
+              <div className="client-tag">{gnatFlipbook.tag}</div>
+            </div>
             {designHighlights.map((p, i) => (
               <Link
                 href="/design"

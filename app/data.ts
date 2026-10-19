@@ -227,14 +227,6 @@ export const designPlates: DesignPlate[] = [
     variant: "spread",
   },
   {
-    src: null,
-    alt: "GNAT UK brochure, interactive page-flip edition, all 24 pages",
-    client: "GNAT UK",
-    tag: "For anyone the two spreads above left wanting more — the full 24 pages, brought down here rather more gently than usual.",
-    variant: "embed",
-    embedSrc: "/gnat-flipbook/index.html",
-  },
-  {
     src: "/images/gnat-uk-leeds-armouries-leaflets.jpg",
     alt: "Set of ten GNAT UK service leaflets for the Leeds Armouries exhibition, covering robotic demolition, hydrodemolition, concrete cutting, top-down demolition and abrasive cold-cutting",
     client: "GNAT UK",
@@ -285,3 +277,12 @@ export const designPlates: DesignPlate[] = [
     variant: "full",
   },
 ];
+
+export const gnatFlipbook: DesignPlate = {
+  src: null,
+  alt: "GNAT UK brochure, interactive page-flip edition, all 24 pages",
+  client: "GNAT UK",
+  tag: "Brochure, all 24 pages — a demolition contractor's work, brought down rather more gently than usual.",
+  variant: "embed",
+  embedSrc: "/gnat-flipbook/index.html",
+};
