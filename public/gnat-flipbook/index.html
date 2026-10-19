@@ -337,10 +337,16 @@
     width: PAGE_W,
     height: PAGE_H,
     size: 'stretch',
-    minWidth: 240,
+    // Low minimums so a full two-page spread can still fit a phone's
+    // width; usePortrait:false keeps it a spread rather than dropping to
+    // single pages on narrow screens; startPage:1 opens on the first
+    // double-page spread (pages 2-3) instead of the cover, for impact.
+    minWidth: 100,
     maxWidth: 4000,
-    minHeight: 340,
+    minHeight: 140,
     maxHeight: 1980,
+    usePortrait: false,
+    startPage: 1,
     maxShadowOpacity: 0.5,
     showCover: true,
     mobileScrollSupport: false,

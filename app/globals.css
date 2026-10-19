@@ -221,7 +221,6 @@ h1{
 .full-page .plate{ aspect-ratio: 1/1; }
 .full-page.wide-page .plate{ aspect-ratio: 600/457; }
 .full-page.embed-page .plate{ aspect-ratio: 1241/877; padding:0; } /* matches the brochure viewer's own two-page-spread aspect ratio, so its #book fills the box with no top/bottom letterbox */
-@media (max-width:640px){ .full-page.embed-page .plate{ aspect-ratio: 3/4; } }
 .full-page.embed-page-wide .plate{ aspect-ratio: 2480/878; padding:0; } /* matches the Seaton Carew flipbook's whole-spread aspect ratio (two half-pages side by side), so its #book fills the box with no side letterbox */
 /* Mobile override: at the book's own ~2.82:1 spread ratio the box is only
    ~110px tall on a phone -- once the flipbook's own footer bar (~60px, fixed)
