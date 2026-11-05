@@ -12,6 +12,8 @@ const nextConfig: NextConfig = {
       // Jacklin's restaurant website concept — shared by link only, not in site nav
       { source: "/jacklins", destination: "/jacklins-concept/index.html" },
       { source: "/jacklins/menu", destination: "/jacklins-concept/menu.html" },
+      { source: "/jacklins/fluid", destination: "/jacklins-fluid/index.html" },
+      { source: "/jacklins/fluid/menu", destination: "/jacklins-fluid/menu.html" },
     ];
   },
 };
