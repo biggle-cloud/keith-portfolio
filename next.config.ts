@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
       { source: "/jacklins/menu", destination: "/jacklins-concept/menu.html" },
       { source: "/jacklins/fluid", destination: "/jacklins-fluid/index.html" },
       { source: "/jacklins/fluid/menu", destination: "/jacklins-fluid/menu.html" },
+      // Joplins (correct name for the concept above) — same pages
+      { source: "/joplins", destination: "/jacklins-concept/index.html" },
+      { source: "/joplins/menu", destination: "/jacklins-concept/menu.html" },
+      { source: "/joplins/fluid", destination: "/jacklins-fluid/index.html" },
+      { source: "/joplins/fluid/menu", destination: "/jacklins-fluid/menu.html" },
     ];
   },
 };
