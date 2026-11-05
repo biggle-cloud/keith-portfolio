@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
       { source: "/whitby-time-of-cook", destination: "/whitby-time-of-cook-flipbook/index.html" },
       { source: "/ice", destination: "/ice-flipbook/index.html" },
       { source: "/my-life", destination: "/my-life-flipbook/index.html" },
+      // Jacklin's restaurant website concept — shared by link only, not in site nav
+      { source: "/jacklins", destination: "/jacklins-concept/index.html" },
+      { source: "/jacklins/menu", destination: "/jacklins-concept/menu.html" },
     ];
   },
 };
