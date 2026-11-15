@@ -26,6 +26,13 @@ const nextConfig: NextConfig = {
         source: `/brokksite/hire/brokk-${n}`,
         destination: `/brokk-site/hire/brokk-${n}.html`,
       })),
+      // GNAT-branded version of the same concept
+      { source: "/gnat-hire", destination: "/gnat-hire-site/index.html" },
+      { source: "/gnat-hire/for-sale", destination: "/gnat-hire-site/for-sale.html" },
+      ...["70", "110", "170", "200", "300", "500", "800"].map((n) => ({
+        source: `/gnat-hire/hire/brokk-${n}`,
+        destination: `/gnat-hire-site/hire/brokk-${n}.html`,
+      })),
     ];
   },
 };
