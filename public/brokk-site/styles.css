@@ -241,3 +241,15 @@ table.spec td{padding:12px 0;font-weight:600;border-bottom:1px solid var(--line)
 .hero-banner .hero-copy{flex:0 1 620px}
 .hero-banner .lead,.hero-banner .ticks{color:#E4E6E8}
 @media (max-width:760px){.hero-banner{background-image:linear-gradient(rgba(14,15,17,.82),rgba(14,15,17,.82)),url(/brokk-site/images/hero-shaft.jpg)}.hero-banner .wrap{min-height:0;padding-top:56px;padding-bottom:56px}}
+
+/* Hero banner v2: brighter photo, text on clean panel */
+.hero-banner{background:#15171A;overflow:hidden;isolation:isolate}
+.hero-banner::before{content:"";position:absolute;top:0;bottom:0;left:38%;right:0;z-index:-2;background:url(/brokk-site/images/hero-shaft.jpg) center 45%/cover no-repeat;filter:brightness(1.12) saturate(1.12) contrast(1.04)}
+.hero-banner::after{content:"";position:absolute;top:0;bottom:0;left:38%;width:22%;z-index:-1;background:linear-gradient(90deg,#15171A 0%,rgba(21,23,26,.6) 45%,rgba(21,23,26,0) 100%)}
+.hero-banner .hero-copy{flex:0 1 560px}
+@media (max-width:760px){
+.hero-banner{background-image:none}
+.hero-banner::before{left:0;top:0;bottom:auto;height:240px}
+.hero-banner::after{left:0;width:100%;top:160px;height:80px;background:linear-gradient(rgba(21,23,26,0),#15171A)}
+.hero-banner .wrap{padding-top:264px}
+}
