@@ -274,3 +274,4 @@ table.spec td{padding:12px 0;font-weight:600;border-bottom:1px solid var(--line)
 /* Own-fleet photos fill their frame */
 .media .fleet-photo{object-fit:cover;padding:0}
 .gallery .main.fleet-photo{object-fit:cover;padding:0;border:0}
+
