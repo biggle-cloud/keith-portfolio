@@ -78,6 +78,22 @@ p{margin:0}
 .ph-dark{background:repeating-linear-gradient(135deg,#25282C 0 14px,#2C2F34 14px 28px);color:#B9BCC0}
 .ph-hero{height:420px}
 
+/* Photos */
+.hero-img{width:100%;height:440px;object-fit:cover;object-position:center 40%}
+.media{position:relative;background:#fff;border-bottom:1px solid var(--line)}
+.media .photo{width:100%;height:190px;object-fit:contain;padding:12px}
+.media .badge{position:absolute;top:12px;left:12px}
+.sale-card .media .photo{height:230px}
+.work{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+@media (min-width:1000px){.work{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:480px){.work{grid-template-columns:1fr}}
+.work figure{margin:0;display:flex;flex-direction:column;gap:10px}
+.work img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.work figcaption{font-size:14px;color:var(--muted)}
+.gallery .main{width:100%;height:460px;object-fit:contain;background:#fff;border:1px solid var(--line);padding:24px}
+.thumbs img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.gallery-note{font-size:13px;color:var(--muted)}
+
 /* Fleet grid */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px}
 .card{border:1px solid var(--line);background:#fff;display:flex;flex-direction:column}
@@ -149,7 +165,7 @@ p{margin:0}
 .product{display:flex;flex-wrap:wrap;gap:48px;padding-bottom:64px}
 .gallery{flex:1 1 540px;min-width:0;display:flex;flex-direction:column;gap:12px}
 .gallery .ph-main{height:440px}
-.thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.thumbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .thumbs .ph{height:84px}
 .summary{flex:1 1 400px;min-width:0;display:flex;flex-direction:column;gap:20px}
 .summary .eyebrow{color:var(--muted)}
@@ -213,8 +229,8 @@ table.spec td{padding:12px 0;font-weight:600;border-bottom:1px solid var(--line)
 @media (max-width:640px){
   .section{padding:56px 0}
   .hero .wrap{padding-top:48px;padding-bottom:48px}
-  .ph-hero{height:260px}
-  .gallery .ph-main{height:280px}
+  .hero-img{height:280px}
+  .gallery .main{height:300px}
   .main-nav ul{gap:0 18px}
 }
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
