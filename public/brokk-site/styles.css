@@ -234,3 +234,10 @@ table.spec td{padding:12px 0;font-weight:600;border-bottom:1px solid var(--line)
   .main-nav ul{gap:0 18px}
 }
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+
+/* Full-width hero banner (green shaft photo) */
+.hero-banner{position:relative;background-color:#15171A;background-image:linear-gradient(90deg,rgba(14,15,17,.92) 0%,rgba(14,15,17,.78) 42%,rgba(14,15,17,.25) 75%,rgba(14,15,17,.1) 100%),url(/brokk-site/images/hero-shaft.jpg);background-size:cover;background-position:center 45%}
+.hero-banner .wrap{min-height:560px;padding-top:88px;padding-bottom:88px}
+.hero-banner .hero-copy{flex:0 1 620px}
+.hero-banner .lead,.hero-banner .ticks{color:#E4E6E8}
+@media (max-width:760px){.hero-banner{background-image:linear-gradient(rgba(14,15,17,.82),rgba(14,15,17,.82)),url(/brokk-site/images/hero-shaft.jpg)}.hero-banner .wrap{min-height:0;padding-top:56px;padding-bottom:56px}}
