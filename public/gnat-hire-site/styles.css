@@ -275,3 +275,8 @@ table.spec td{padding:12px 0;font-weight:600;border-bottom:1px solid var(--line)
 .media .fleet-photo{object-fit:cover;padding:0}
 .gallery .main.fleet-photo{object-fit:cover;padding:0;border:0}
 
+
+/* Sale listings: real photos supplied on request */
+.photo-request{height:190px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:6px;padding:20px 24px;background:var(--stone);color:var(--muted);font-size:15px;font-weight:500}
+.photo-request span{font-family:Archivo,sans-serif;font-weight:800;font-size:28px;color:var(--ink)}
+.sale-card .photo-request{height:230px}
