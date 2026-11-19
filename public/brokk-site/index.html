@@ -19,9 +19,11 @@
 <span>A <a href="https://www.gnatuk.com">GNAT UK</a> company · Specialist robotic demolition</span>
 <span>Nationwide · <a href="tel:+441748826046">01748 826046</a></span>
 </div></div>
+<script>document.documentElement.classList.add("js")</script>
 <header class="site-header"><div class="wrap">
 <a class="brand" href="/brokksite"><span class="brand-mark" aria-hidden="true">B</span><span class="brand-name">BROKK HIRE <span>UK</span></span></a>
-<nav class="main-nav" aria-label="Main"><ul>
+<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav"><span class="nav-toggle-bars" aria-hidden="true"><span></span></span><span class="nav-toggle-label">Menu</span></button>
+<nav class="main-nav" id="main-nav" aria-label="Main"><ul>
 <li><a href="/brokksite#fleet">Hire fleet</a></li>
 <li><a href="/brokksite/for-sale">Machines for sale</a></li>
 <li><a href="/brokksite#services">Services</a></li>
@@ -265,5 +267,6 @@
 </div>
 <p class="footer-base">© Brokk Hire UK. Some machine images are for illustration. Brokk Hire UK is an independent hire company, part of GNAT UK, and is not affiliated with or endorsed by Brokk AB. Machine figures come from Brokk's published data and weights are without options or attachments. Brokk is a trademark of Brokk AB.</p>
 </div></footer>
+<script>(function(){var h=document.querySelector(".site-header"),b=h&&h.querySelector(".nav-toggle");if(!b)return;function set(o){h.classList.toggle("nav-open",o);b.setAttribute("aria-expanded",o?"true":"false");}b.addEventListener("click",function(){set(b.getAttribute("aria-expanded")!=="true");});document.addEventListener("keydown",function(e){if(e.key==="Escape"&&h.classList.contains("nav-open")){set(false);b.focus();}});h.querySelectorAll(".main-nav a").forEach(function(a){a.addEventListener("click",function(){set(false);});});})();</script>
 </body>
 </html>
