@@ -98,8 +98,8 @@ input[type=range] { flex: 1; min-width: 120px; max-width: 520px; accent-color: v
 .spread-th span { font-size: .72rem; color: var(--muted); font-variant-numeric: tabular-nums; }
 .spread-th.on .pp { outline: 2px solid var(--accent); outline-offset: 3px; }
 .zoom-body { display: flex; gap: 0; justify-content: center; align-items: flex-start; padding: 16px; }
-.zoom-body img { width: min(1240px, 100%); height: auto; background: var(--paper); box-shadow: 0 10px 30px var(--shadow); }
-.zoom-body.two img { width: min(1240px, 50%); }
+.zoom-body img { width: min(1600px, 100%); height: auto; background: var(--paper); box-shadow: 0 10px 30px var(--shadow); }
+.zoom-body.two img { width: min(1600px, 50%); }
 
 .toc { list-style: none; margin: 0 auto; padding: 0; max-width: 640px; }
 .toc li button { width: 100%; height: auto; justify-content: flex-start; text-align: left; padding: 14px 14px; gap: 16px; background: none; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; }
@@ -172,6 +172,7 @@ input[type=range] { flex: 1; min-width: 120px; max-width: 520px; accent-color: v
   const N = 34, RATIO = 581.102 / 841.89, DUR = 700;
   const src = p => `/curiosities-flipbook/pages/p${String(p).padStart(2, "0")}.webp`;
   const th  = p => `/curiosities-flipbook/pages/t${String(p).padStart(2, "0")}.webp`;
+  const zsrc = p => `/curiosities-flipbook/pages/z${String(p).padStart(2, "0")}.webp`;  // 300 dpi, for Zoom
   const SECTIONS = [
     { p: 1, t: "Front cover" },
     { p: 3, t: "Title page" },
@@ -441,7 +442,7 @@ input[type=range] { flex: 1; min-width: 120px; max-width: 520px; accent-color: v
     const v = visible();
     const zb = $("zoomBody");
     zb.classList.toggle("two", v.length === 2 && innerWidth > 700);
-    zb.innerHTML = v.map(p => `<img alt="Page ${p}" src="${src(p)}">`).join("");
+    zb.innerHTML = v.map(p => `<img alt="Page ${p}" src="${zsrc(p)}" style="background:var(--paper) url(${src(p)}) center/cover">`).join("");
     $("zoomTitle").textContent = v.length === 2 ? `Pages ${v[0]}–${v[1]}` : `Page ${v[0]}`;
     $("ovZoom").hidden = false;
     zb.scrollTop = 0;
