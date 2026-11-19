@@ -280,3 +280,12 @@ table.spec td{padding:12px 0;font-weight:600;border-bottom:1px solid var(--line)
 .photo-request{height:190px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:6px;padding:20px 24px;background:var(--stone);color:var(--muted);font-size:15px;font-weight:500}
 .photo-request span{font-family:Archivo,sans-serif;font-weight:800;font-size:28px;color:var(--ink)}
 .sale-card .photo-request{height:230px}
+
+/* Ex-fleet register-interest panel */
+.interest-card .card-body{gap:18px;padding:28px}
+.interest-card h3{font-size:26px}
+.model-chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.model-chips a{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border:1px solid #6B7076;color:var(--ink);font-weight:600;text-decoration:none}
+.model-chips a:hover,.model-chips a:focus-visible{background:var(--accent);border-color:var(--accent)}
+.interest-points{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:15px;color:var(--muted)}
+.interest-points li::before{content:"";display:inline-block;width:10px;height:10px;background:var(--accent);margin-right:10px}
